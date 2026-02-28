@@ -1,0 +1,9 @@
+{
+    "semi": false,
+    "singleQuote": false,
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 120,
+    "arrowParens": "avoid",
+    "plugins": ["prettier-plugin-tailwindcss"]
+}
