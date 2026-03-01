@@ -1,5 +1,11 @@
+import CardContainer from "../components/CardContainer.tsx"
+
 function Home() {
-    return <div>Home Page</div>
+    return (
+        <main className="flex items-center justify-center px-32 py-24">
+            <CardContainer />
+        </main>
+    )
 }
 
 export default Home
