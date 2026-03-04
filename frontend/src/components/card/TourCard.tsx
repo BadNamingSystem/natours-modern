@@ -23,18 +23,14 @@ function TourCard({ tour }: { tour: TestTour }) {
         <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 font-sans text-base leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300">
             {/* card header/image */}
             <div className="relative">
-                {/* Slant using clip-path */}
                 <div className="h-88 w-full overflow-hidden [clip-path:polygon(0_0,100%_0,100%_85%,0_100%)]">
-                    {/* 2. Image Overlay */}
                     <div className="absolute h-full w-full bg-linear-to-br from-green-800 to-green-600 opacity-45"></div>
-
                     <img
                         className="h-full w-full object-cover"
                         src={`/tours/${imageCover}`}
                         alt={`${name} image cover`}
                     />
                 </div>
-                {/* 3. Refined Heading with decoration-clone */}
                 <h3 className="absolute right-8 bottom-4 z-10 w-[70%] text-right text-[2.75rem] font-light text-white uppercase">
                     <span className="rounded-sm bg-linear-to-br from-green-800 to-green-600 box-decoration-clone px-6 py-4 leading-normal opacity-90">
                         {name}
@@ -76,10 +72,10 @@ function TourCard({ tour }: { tour: TestTour }) {
                 </div>
 
                 <Link
-                    className="rounded-full bg-emerald-600 px-12 py-5 text-xl font-light tracking-wide text-white uppercase transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
+                    className="rounded-full bg-emerald-600 px-12 py-5 text-xl font-light tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
                     to="#"
                 >
-                    Details
+                    DETAILS
                 </Link>
             </div>
         </div>
