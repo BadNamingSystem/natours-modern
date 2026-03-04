@@ -47,7 +47,7 @@ export default tseslint.config(
             "prefer-promise-reject-errors": "error",
 
             // Allow any for now as we transition
-            "@typescript-eslint/no-explicit-any": "warn",
+            "@typescript-eslint/no-explicit-any": "off",
         },
     },
 )

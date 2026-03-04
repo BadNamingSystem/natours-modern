@@ -1,3 +1,28 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables
 .env
-node_modules
-dist
+**/.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+**/dist/
+frontend/dist/
+
+# Prisma
+backend/generated/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+LLM.txt
+
+# OS files
+.DS_Store
+Thumbs.db

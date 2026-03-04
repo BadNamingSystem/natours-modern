@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tour {
+  id              String   @id @default(uuid())
+  name            String   @unique
+  slug            String?
+  duration        Int
+  maxGroupSize    Int
+  difficulty      String
+  ratingsAverage  Float    @default(4.5)
+  ratingsQuantity Int      @default(0)
+  price           Float
+  priceDiscount   Float?
+  summary         String   @db.Text
+  description     String?  @db.Text
+  imageCover      String
+  images          String[]
+  createdAt       DateTime @default(now())
+  startDates      String[]
+  secretTour      Boolean  @default(false)
+
+  // Locations (Simplified GeoJSON for Postgres)
+  startLocation Json?
+  locations     Json?
+
+  // Relations
+  guides  User[]   @relation("TourGuides")
+  reviews Review[]
+
+  @@index([price, ratingsAverage(sort: Desc)])
+  @@index([slug])
+  @@map("tours")
+}
+
+model User {
+  id                   String    @id @default(uuid())
+  name                 String
+  email                String    @unique
+  photo                String?   @default("")
+  password             String
+  role                 String    @default("user")
+  createdAt            DateTime  @default(now())
+  passwordChangedAt    DateTime?
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  active               Boolean   @default(true)
+  reviews              Review[]
+  tours                Tour[]    @relation("TourGuides")
+
+  @@map("users")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  tourId    String
+  review    String
+  rating    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  tour      Tour     @relation(fields: [tourId], references: [id])
+
+  @@map("reviews")
+}

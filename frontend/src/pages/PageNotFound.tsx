@@ -6,7 +6,7 @@ function PageNotFound() {
 
     return (
         <main className="flex h-screen flex-col items-center justify-center gap-12 overflow-hidden bg-gray-100">
-            <h1 className="font-sans text-3xl font-medium tracking-wide md:text-5xl">
+            <h1 className="text-center font-sans text-3xl font-medium tracking-wide md:text-5xl">
                 The page you are looking for does not exist
             </h1>
             <div>

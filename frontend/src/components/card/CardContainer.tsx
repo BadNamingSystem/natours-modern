@@ -1,4 +1,4 @@
-import { tours } from "../../dev-data/tours.ts"
+import { tours } from "../../../dev-data/tours.ts"
 import TourCard from "./TourCard.tsx"
 
 function CardContainer() {
