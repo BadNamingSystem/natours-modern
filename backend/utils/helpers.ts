@@ -42,3 +42,14 @@ export const filterObj = (obj: Record<string, unknown>, ...allowedFields: string
     })
     return newObj
 }
+
+/**
+ * Exclude fields from an object (e.g. password from User)
+ */
+export function exclude<T, Key extends keyof T>(obj: T, keys: Key[]): Omit<T, Key> {
+    const newObj = { ...obj }
+    for (const key of keys) {
+        delete (newObj as any)[key]
+    }
+    return newObj
+}

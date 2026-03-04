@@ -32,7 +32,10 @@ const tourBaseSchema = z.object({
     secretTour: z.boolean().optional(),
     startLocation: z.record(z.string(), z.unknown()).optional(),
     locations: z.array(z.record(z.string(), z.unknown())).optional(),
-    guides: z.array(z.string()).optional(),
+    guides: z
+        .array(z.string())
+        .optional()
+        .transform(ids => (ids ? { set: ids.map(id => ({ id })) } : undefined)),
 })
 
 export const tourSchema = z.object({
