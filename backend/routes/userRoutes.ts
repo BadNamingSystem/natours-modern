@@ -8,9 +8,15 @@ import {
     updateMe,
     deleteMe,
 } from "../controllers/userController.js"
-import { signup, login, logout, updatePassword } from "../controllers/authController.js"
+import { signup, login, logout, updatePassword, forgotPassword, resetPassword } from "../controllers/authController.js"
 import { validate } from "../middleware/validate.js"
-import { signupSchema, loginSchema, updatePasswordSchema } from "../schemas/userSchema.js"
+import {
+    signupSchema,
+    loginSchema,
+    updatePasswordSchema,
+    forgotPasswordSchema,
+    resetPasswordSchema,
+} from "../schemas/userSchema.js"
 import { protect, restrictTo } from "../middleware/authMiddleware.js"
 
 const router = express.Router()
@@ -20,9 +26,9 @@ router.post("/signup", validate(signupSchema), signup)
 router.post("/login", validate(loginSchema), login)
 router.get("/logout", logout)
 
-// // Password reset routes
-// router.post("/forgot-password", forgotPassword)
-// router.patch("/reset-password/:token", resetPassword)
+// Password reset routes
+router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword)
+router.patch("/reset-password/:token", validate(resetPasswordSchema), resetPassword)
 
 // PROTECTED ROUTES - Needs authentication
 router.use(protect)

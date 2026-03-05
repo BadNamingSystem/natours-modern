@@ -29,7 +29,7 @@ export const signupSchema = z.object({
             passwordConfirm: z.string({ message: "Please confirm your password" }),
         })
         .refine(data => data.password === data.passwordConfirm, {
-            message: "Passwords are not the same!",
+            message: "Passwords don't match!",
             path: ["passwordConfirm"],
         }),
 })
@@ -60,7 +60,31 @@ export const updatePasswordSchema = z.object({
             passwordConfirm: z.string({ message: "Please confirm your new password" }),
         })
         .refine(data => data.password === data.passwordConfirm, {
-            message: "New passwords are not the same!",
+            message: "New passwords don't match!",
+            path: ["passwordConfirm"],
+        }),
+})
+export const forgotPasswordSchema = z.object({
+    body: z.object({
+        email: z
+            .string({ message: "Please provide your email address" })
+            .trim()
+            .refine(val => isValidEmail(val), {
+                message: "Please provide a valid email",
+            }),
+    }),
+})
+
+export const resetPasswordSchema = z.object({
+    body: z
+        .object({
+            password: z
+                .string({ message: "Please provide a new password" })
+                .min(8, "Password must be at least 8 characters long"),
+            passwordConfirm: z.string({ message: "Please confirm your new password" }),
+        })
+        .refine(data => data.password === data.passwordConfirm, {
+            message: "Passwords don't match!",
             path: ["passwordConfirm"],
         }),
 })
