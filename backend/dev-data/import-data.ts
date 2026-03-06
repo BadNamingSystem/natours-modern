@@ -1,29 +1,56 @@
 import fs from "node:fs"
-import crypto from "node:crypto"
 import prisma from "../utils/db.js"
 
-const tours = JSON.parse(fs.readFileSync(new URL("./tours.json", import.meta.url), "utf-8"))
+const getJson = (file: string) => JSON.parse(fs.readFileSync(new URL(file, import.meta.url), "utf-8"))
+
+const toursRaw = getJson("./tours.json")
+const usersRaw = getJson("./users.json")
+const reviewsRaw = getJson("./reviews.json")
 
 const importData = async () => {
     try {
-        console.log("Starting import...")
+        console.log("Starting clean import of relational data...")
 
-        const formattedTours = tours.map((tour: any) => ({
-            ...tour,
-            id: crypto.randomUUID(),
-        }))
-
-        const count = await prisma.tour.createMany({
-            data: formattedTours,
-            skipDuplicates: true,
+        // 1. Import Users (needed by Tours and Reviews)
+        const formattedUsers = usersRaw.map((u: any) => {
+            const { _id, ...rest } = u
+            return { ...rest, id: _id }
         })
-        console.log(`${count.count} tours successfully loaded`)
-    } catch (err) {
-        if (err instanceof Error) {
-            console.error("Error importing data:", err.message)
-        } else {
-            console.error("Error importing data:", err)
+        await prisma.user.createMany({ data: formattedUsers, skipDuplicates: true })
+        console.log("✅ Users loaded")
+
+        // 2. Import Tours (Looping for guide connections)
+        for (const t of toursRaw) {
+            const { _id, guides, ...rest } = t
+            await prisma.tour.create({
+                data: {
+                    ...rest,
+                    id: _id,
+                    slug: t.slug || t.name.toLowerCase().replace(/ /g, "-"),
+                    guides: {
+                        connect: (guides || []).map((id: string) => ({ id })),
+                    },
+                },
+            })
         }
+        console.log("✅ Tours loaded (with guides linked)")
+
+        // 3. Import Reviews
+        const formattedReviews = reviewsRaw.map((r: any) => {
+            const { _id, user, tour, ...rest } = r
+            return {
+                ...rest,
+                id: _id,
+                userId: user,
+                tourId: tour,
+            }
+        })
+        await prisma.review.createMany({ data: formattedReviews })
+        console.log("✅ Reviews loaded")
+
+        console.log("Data successfully imported!")
+    } catch (err) {
+        console.error("Import error:", err)
     } finally {
         process.exit()
     }
@@ -32,14 +59,12 @@ const importData = async () => {
 const deleteData = async () => {
     try {
         console.log("Deleting data...")
+        await prisma.review.deleteMany()
         await prisma.tour.deleteMany()
-        console.log("Data successfully deleted")
+        await prisma.user.deleteMany()
+        console.log("Database cleared successfully.")
     } catch (err) {
-        if (err instanceof Error) {
-            console.error("Error deleting data:", err.message)
-        } else {
-            console.error("Error deleting data:", err)
-        }
+        console.error("Error deleting data:", err)
     } finally {
         process.exit()
     }
@@ -50,6 +75,8 @@ if (process.argv[2] === "--import") {
 } else if (process.argv[2] === "--delete") {
     deleteData()
 } else {
-    console.log("Provide argument: --import or --delete")
+    console.log("Usage: npx tsx --env-file=.env dev-data/import-data.ts --import | --delete")
     process.exit()
 }
+
+// npx tsx --env-file=.env dev-data/import-data.ts --delete

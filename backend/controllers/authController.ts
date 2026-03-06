@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
-import { Response, Request, NextFunction } from "express"
+import { Response, Request, NextFunction, CookieOptions } from "express"
 import { User } from "@prisma/client"
 import prisma from "../utils/db.js"
 import catchAsync from "../utils/catchAsync.js"
@@ -20,7 +20,7 @@ const createSendToken = (user: User, statusCode: number, res: Response) => {
     // Fallback to 90 days if env variable is missing or invalid
     const cookieExpiresIn = parseInt(process.env.JWT_COOKIE_EXPIRES_IN || "90", 10)
 
-    const cookieOptions: any = {
+    const cookieOptions: CookieOptions = {
         expires: new Date(Date.now() + cookieExpiresIn * 24 * 60 * 60 * 1000),
         httpOnly: true,
         sameSite: "strict",

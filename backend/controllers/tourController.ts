@@ -1,10 +1,26 @@
+import { Request, Response, NextFunction } from "express"
 import prisma from "../utils/db.js"
 import { Tour } from "@prisma/client"
 import { getAll, getOne, createOne, updateOne, deleteOne } from "./handlerFactory.js"
-import { Request, Response, NextFunction } from "express"
 
 export const getAllTours = getAll<Tour>(prisma.tour)
-export const getTour = getOne<Tour>(prisma.tour)
+export const getTour = getOne<Tour>(prisma.tour, {
+    guides: {
+        select: {
+            id: true,
+            name: true,
+            photo: true,
+            role: true,
+        },
+    },
+    reviews: {
+        select: {
+            review: true,
+            rating: true,
+            userId: true,
+        },
+    },
+})
 export const createTour = createOne<Tour>(prisma.tour)
 export const updateTour = updateOne<Tour>(prisma.tour)
 export const deleteTour = deleteOne<Tour>(prisma.tour)

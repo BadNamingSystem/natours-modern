@@ -11,8 +11,12 @@ import { getTourStats, getMonthlyPlan, getDistances, getToursWithin } from "../c
 import { validate } from "../middleware/validate.js"
 import { tourSchema, tourUpdateSchema } from "../schemas/tourSchema.js"
 import { protect, restrictTo } from "../middleware/authMiddleware.js"
+import reviewRouter from "./reviewRoutes.js"
 
 const router = express.Router()
+
+// NESTED ROUTES
+router.use("/:tourId/reviews", reviewRouter)
 
 // TOUR ALIAS ROUTE (MIDDLEWARE)
 router.route("/top-5-tours").get(aliasTopTours, getAllTours)

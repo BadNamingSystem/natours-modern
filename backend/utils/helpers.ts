@@ -25,9 +25,10 @@ export const isValidEmail = (email: string) => {
     return emailRegex.test(email)
 }
 
-export const isValidUUID = (uuid: string) => {
+export const isValidId = (id: string) => {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    return uuidRegex.test(uuid)
+    const mongoIdRegex = /^[0-9a-fA-F]{24}$/
+    return uuidRegex.test(id) || mongoIdRegex.test(id)
 }
 
 // Whitelist approach to filter out unwanted fields

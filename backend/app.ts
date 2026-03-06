@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import morgan from "morgan"
 import tourRouter from "./routes/tourRoutes.js"
 import userRouter from "./routes/userRoutes.js"
+import reviewRouter from "./routes/reviewRoutes.js"
 import AppError from "./utils/appError.js"
 import globalErrorHandler from "./controllers/errorController.js"
 
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV === "development") {
 // ROUTES
 app.use("/api/v1/tours", tourRouter)
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/reviews", reviewRouter)
 
 // Unhandled routes
 app.use((req, res, next) => {

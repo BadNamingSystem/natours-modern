@@ -61,7 +61,7 @@ model Review {
   userId    String
   tourId    String
   review    String
-  rating    Int
+  rating    Float
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   tour      Tour     @relation(fields: [tourId], references: [id])

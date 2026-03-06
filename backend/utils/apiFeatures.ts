@@ -8,6 +8,7 @@ export default class APIFeatures {
         where?: Record<string, unknown>
         orderBy?: Record<string, PrismaSortOrder>[] | Record<string, PrismaSortOrder>
         select?: Record<string, boolean>
+        include?: Record<string, unknown>
         skip?: number
         take?: number
     } = {}
