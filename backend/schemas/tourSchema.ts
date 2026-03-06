@@ -10,6 +10,7 @@ const tourBaseSchema = z.object({
         .refine(val => containsOnlyLetters(val), {
             message: "A tour name must only contain letters and spaces",
         }),
+    slug: z.string().optional(),
     duration: z.number({ message: "A tour must have a duration" }),
     maxGroupSize: z.number({ message: "A tour must have a group size" }),
     difficulty: z.enum(["easy", "medium", "difficult"], {

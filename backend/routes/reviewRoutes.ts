@@ -5,7 +5,6 @@ import {
     createReview,
     updateReview,
     deleteReview,
-    setTourUserIds,
     checkReviewOwnership,
 } from "../controllers/reviewController.js"
 import { validate } from "../middleware/validate.js"
@@ -17,10 +16,7 @@ const router = express.Router({ mergeParams: true })
 
 router.use(protect)
 
-router
-    .route("/")
-    .get(getAllReviews)
-    .post(restrictTo("user"), setTourUserIds, validate(createReviewSchema), createReview)
+router.route("/").get(getAllReviews).post(restrictTo("user"), validate(createReviewSchema), createReview)
 
 router
     .route("/:id")

@@ -1,13 +1,13 @@
 import { z } from "zod"
-import { containsOnlyLetters, isValidEmail } from "../utils/helpers.js"
+import { validateName, isValidEmail } from "../utils/helpers.js"
 
 const userBaseSchema = z.object({
     name: z
         .string({ message: "Please provide your name" })
         .trim()
         .min(2, "Name is too short")
-        .refine(val => containsOnlyLetters(val), {
-            message: "A name must only contain letters and spaces",
+        .refine(val => validateName(val), {
+            message: "A name must only contain letters and spaces. International characters are supported.",
         }),
     email: z
         .string({ message: "Please provide your email" })

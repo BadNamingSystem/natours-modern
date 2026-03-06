@@ -42,12 +42,17 @@ const sendErrorProd = (err: ExtendedError, req: Request, res: Response) => {
 }
 
 const handlePrismaDuplicateFields = (err: Prisma.PrismaClientKnownRequestError) => {
-    // Prisma provides the field name in the target meta property, or in driverAdapterError for Neon
-    const target = (err.meta?.target as string[]) || (err.meta as any)?.driverAdapterError?.cause?.constraint?.fields
-    const field = target ? target.join(".") : "unknown"
+    const rawTarget = (err.meta?.target as string[]) || (err.meta as any)?.driverAdapterError?.cause?.constraint?.fields
+    // Neon driver wraps field names in quotes e.g. '"userId"'
+    const target = rawTarget?.map((t: string) => t.replace(/"/g, ""))
 
-    const message = `Duplicate field value: ${field}. Please use another value!`
-    return new AppError(message, 400)
+    // Domain-specific messages for known unique constraints
+    if (target?.includes("userId") && target?.includes("tourId")) {
+        return new AppError("You have already reviewed this tour", 400)
+    }
+
+    const field = target ? target.join(".") : "unknown"
+    return new AppError(`Duplicate field value: ${field}. Please use another value!`, 400)
 }
 
 const handleJWTError = () => new AppError("Invalid token. Please log in again!", 401)
@@ -59,16 +64,16 @@ const globalErrorHandler = (err: ExtendedError, req: Request, res: Response, nex
     err.status = err.status || "error"
     const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : "development"
 
+    // Transform known error types into clean AppErrors (applies in all environments)
+    let error: ExtendedError = { ...err, message: err.message }
+
+    if (err.code === "P2002") error = handlePrismaDuplicateFields(err as Prisma.PrismaClientKnownRequestError)
+    if (err.name === "JsonWebTokenError") error = handleJWTError()
+    if (err.name === "TokenExpiredError") error = handleJWTExpiredError()
+
     if (env === "development") {
-        sendErrorDev(err, req, res)
-    } else if (env === "production") {
-        let error: ExtendedError = { ...err }
-        error.message = err.message
-
-        if (err.code === "P2002") error = handlePrismaDuplicateFields(err as Prisma.PrismaClientKnownRequestError)
-        if (err.name === "JsonWebTokenError") error = handleJWTError()
-        if (err.name === "TokenExpiredError") error = handleJWTExpiredError()
-
+        sendErrorDev(error, req, res)
+    } else {
         sendErrorProd(error, req, res)
     }
 }

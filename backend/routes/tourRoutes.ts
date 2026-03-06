@@ -6,6 +6,7 @@ import {
     updateTour,
     deleteTour,
     aliasTopTours,
+    setTourSlug,
 } from "../controllers/tourController.js"
 import { getTourStats, getMonthlyPlan, getDistances, getToursWithin } from "../controllers/tourStatsController.js"
 import { validate } from "../middleware/validate.js"
@@ -30,11 +31,14 @@ router.route("/tours-within/:distance/center/:latlng/unit/:unit").get(getToursWi
 router.route("/distances/:latlng/unit/:unit").get(getDistances)
 
 // TOUR CRUD ROUTES
-router.route("/").get(getAllTours).post(protect, restrictTo("admin", "lead-guide"), validate(tourSchema), createTour)
+router
+    .route("/")
+    .get(getAllTours)
+    .post(protect, restrictTo("admin", "lead-guide"), setTourSlug, validate(tourSchema), createTour)
 router
     .route("/:id")
     .get(getTour)
-    .patch(protect, restrictTo("admin", "lead-guide"), validate(tourUpdateSchema), updateTour)
+    .patch(protect, restrictTo("admin", "lead-guide"), setTourSlug, validate(tourUpdateSchema), updateTour)
     .delete(protect, restrictTo("admin"), deleteTour)
 
 export default router

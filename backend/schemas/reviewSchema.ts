@@ -6,8 +6,6 @@ const reviewBaseSchema = z.object({
         .number({ message: "Rating is required" })
         .min(1, "Rating must be at least 1")
         .max(5, "Rating must be at most 5"),
-    tourId: z.string().optional(),
-    userId: z.string().optional(),
 })
 
 export const createReviewSchema = z.object({
