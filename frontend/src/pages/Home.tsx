@@ -1,4 +1,4 @@
-import CardContainer from "../components/card/CardContainer.tsx"
+import CardContainer from "../features/tours/card/CardContainer.tsx"
 
 function Home() {
     return (

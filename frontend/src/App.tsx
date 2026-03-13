@@ -25,7 +25,7 @@ function App() {
                 <Route path="/test-spinner" element={<TestSpinner />} />
                 <Route element={<BaseLayout />}>
                     <Route index element={<Home />} />
-                    <Route path="/slug" element={<Tour />} />
+                    <Route path="/tours/:slug" element={<Tour />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="account" element={<Account />} />

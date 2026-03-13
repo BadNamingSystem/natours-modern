@@ -1,9 +1,7 @@
-import { useParams } from "react-router"
+import TourDetails from "../features/tours/tourDetails/TourDetails.tsx"
 
 function Tour() {
-    const { slug } = useParams()
-
-    return <div>Tour Details Page: {slug}</div>
+    return <TourDetails />
 }
 
 export default Tour

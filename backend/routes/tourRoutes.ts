@@ -7,6 +7,7 @@ import {
     deleteTour,
     aliasTopTours,
     setTourSlug,
+    getTourBySlug,
 } from "../controllers/tourController.js"
 import { getTourStats, getMonthlyPlan, getDistances, getToursWithin } from "../controllers/tourStatsController.js"
 import { validate } from "../middleware/validate.js"
@@ -35,6 +36,9 @@ router
     .route("/")
     .get(getAllTours)
     .post(protect, restrictTo("admin", "lead-guide"), setTourSlug, validate(tourSchema), createTour)
+
+router.route("/name/:slug").get(getTourBySlug)
+
 router
     .route("/:id")
     .get(getTour)

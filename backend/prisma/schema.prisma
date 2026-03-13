@@ -9,7 +9,7 @@ datasource db {
 model Tour {
   id              String   @id @default(uuid())
   name            String   @unique
-  slug            String?
+  slug            String?  @unique
   duration        Int
   maxGroupSize    Int
   difficulty      String
@@ -34,7 +34,6 @@ model Tour {
   reviews Review[]
 
   @@index([price, ratingsAverage(sort: Desc)])
-  @@index([slug])
   @@map("tours")
 }
 

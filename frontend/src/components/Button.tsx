@@ -2,7 +2,7 @@ import { Children } from "react"
 import type { MouseEventHandler, ReactNode } from "react"
 import { cn } from "../utils/cn.ts"
 
-type Colors = "yellow" | "green" | "blue" | "red" | "violet" | "fuchsia" | "white" | "dark"
+type Colors = "yellow" | "green" | "blue" | "red" | "violet" | "fuchsia" | "white" | "dark" | "emerald"
 type Size = "small" | "medium" | "large"
 
 type Props = {
@@ -29,7 +29,7 @@ function Button({
     const isIconOnly = Children.count(children) >= 1 && typeof children !== "string"
 
     const baseStyles =
-        "font-sans cursor-pointer font-semibold transition-colors duration-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        "font-sans cursor-pointer font-semibold transition-all duration-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 
     const colors = {
         yellow: "bg-yellow-400 text-stone-800 hover:bg-yellow-300 active:bg-yellow-400 focus:ring-yellow-400",
@@ -40,6 +40,7 @@ function Button({
         fuchsia: "bg-fuchsia-400 text-stone-800 hover:bg-fuchsia-300 active:bg-fuchsia-400 focus:ring-fuchsia-400",
         white: "bg-stone-100 text-stone-800 hover:bg-stone-300 active:bg-stone-100 focus:ring-stone-900",
         dark: "bg-zinc-900 text-slate-100 hover:bg-zinc-700 active:bg-zinc-900 focus:ring-zinc-900",
+        emerald: "bg-emerald-600 text-slate-100 active:bg-emerald-500 focus:ring-emerald-700",
     }
 
     const heights = {

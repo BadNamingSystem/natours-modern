@@ -1,11 +1,12 @@
-import type { TestTour } from "../../types/types.ts"
 import CardHeader from "./CardHeader.tsx"
 import CardDetails from "./CardDetails.tsx"
 import CardFooter from "./CardFooter.tsx"
+import type { Tour } from "../../../types/types.ts"
 
-function TourCard({ tour }: { tour: TestTour }) {
+function TourCard({ tour }: { tour: Tour }) {
     const {
         name,
+        slug,
         difficulty,
         startLocation,
         maxGroupSize,
@@ -24,7 +25,7 @@ function TourCard({ tour }: { tour: TestTour }) {
         <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 text-base leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300">
             <CardHeader imageCover={imageCover} name={name} />
             <CardDetails
-                startLocation={startLocation}
+                startLocation={startLocation.description}
                 summary={summary}
                 difficulty={difficulty}
                 duration={duration}
@@ -32,7 +33,7 @@ function TourCard({ tour }: { tour: TestTour }) {
                 stops={stops}
                 maxGroupSize={maxGroupSize}
             />
-            <CardFooter price={price} ratingsAverage={ratingsAverage} ratingsQuantity={ratingsQuantity} />
+            <CardFooter slug={slug} price={price} ratingsAverage={ratingsAverage} ratingsQuantity={ratingsQuantity} />
         </div>
     )
 }
