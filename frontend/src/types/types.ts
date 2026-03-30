@@ -29,15 +29,19 @@ export type Tour = {
         coordinates: [number, number]
         description: string
     }[]
-    guides?: {
-        id: string
-        name: string
-        role: string
-        photo: string
-    }[]
-    reviews?: {
-        id: string
-        review: string
-        rating: number
-    }
+    guides: Guide[]
+    reviews?: Review[]
+}
+
+export type Guide = {
+    id: string
+    name: string
+    role: string
+    photo: string
+}
+
+export type Review = {
+    id: string
+    review: string
+    rating: number
 }

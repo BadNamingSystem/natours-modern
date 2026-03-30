@@ -4,7 +4,7 @@ import Footer from "./footer/Footer.tsx"
 
 function BaseLayout() {
     return (
-        <div className="flex min-h-screen flex-col rounded-sm bg-gray-100">
+        <div className="flex min-h-screen flex-col rounded-sm">
             <Header />
             <main className="grow">
                 <Outlet />

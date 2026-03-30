@@ -8,7 +8,7 @@ function TourCard({ tour }: { tour: Tour }) {
         name,
         slug,
         difficulty,
-        startLocation,
+        startLocation: { description },
         maxGroupSize,
         startDates,
         price,
@@ -25,7 +25,7 @@ function TourCard({ tour }: { tour: Tour }) {
         <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 text-base leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300">
             <CardHeader imageCover={imageCover} name={name} />
             <CardDetails
-                startLocation={startLocation.description}
+                startingFrom={description}
                 summary={summary}
                 difficulty={difficulty}
                 duration={duration}
