@@ -18,7 +18,7 @@ function TourHero({ name, imageCover, duration, startingFrom }: Props) {
 
             <div className="absolute top-[45%] left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-white">
                 <h1 className="mx-auto mb-10 w-4xl text-center text-[5rem] leading-[1.4] font-light tracking-[1rem] uppercase">
-                    <span className="rounded-md bg-linear-to-br from-green-800 to-green-600 [box-decoration-break:clone] px-6 py-2 [-webkit-box-decoration-break:clone]">
+                    <span className="rounded-md bg-linear-to-br from-green-800 to-green-600 [box-decoration-break:clone] px-6 py-2">
                         {name} Tour
                     </span>
                 </h1>

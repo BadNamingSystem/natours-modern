@@ -3,6 +3,7 @@ import PageNotFound from "../../../pages/PageNotFound.tsx"
 import { useTour } from "../useTour.ts"
 import TourHero from "./TourHero.tsx"
 import TourDescription from "./TourDescription.tsx"
+import TourPhotos from "./TourPhotos.tsx"
 
 function TourDetails() {
     const { tour, isLoading, error } = useTour()
@@ -14,6 +15,7 @@ function TourDetails() {
         name,
         description: tourDescription,
         imageCover,
+        images,
         duration,
         startLocation: { description },
         startDates,
@@ -25,7 +27,6 @@ function TourDetails() {
     } = tour
 
     const startDate = new Date(startDates[0]).toLocaleString("en-us", { month: "long", year: "numeric" })
-    console.log(guides)
 
     return (
         <>
@@ -40,6 +41,7 @@ function TourDetails() {
                 maxGroupSize={maxGroupSize}
                 guides={guides}
             />
+            <TourPhotos images={images} />
         </>
     )
 }
