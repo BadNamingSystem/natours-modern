@@ -14,12 +14,13 @@ function TourCard({ tour }: { tour: Tour }) {
         price,
         ratingsAverage,
         ratingsQuantity,
-        stops,
+        locations,
         duration,
         summary,
         imageCover,
     } = tour
     const startDate = new Date(startDates[0]).toLocaleString("en-us", { month: "long", year: "numeric" })
+    const stops = locations?.length || 0
 
     return (
         <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 text-base leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300">

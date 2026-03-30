@@ -15,7 +15,6 @@ export type Tour = {
     price: number
     priceDiscount: number | null
     secretTour: boolean
-    stops: number
     startDates: string[]
     startLocation: {
         type: string
@@ -23,12 +22,7 @@ export type Tour = {
         coordinates: [number, number]
         description: string
     }
-    locations: {
-        id: string
-        type: string
-        coordinates: [number, number]
-        description: string
-    }[]
+    locations: TourLocation[]
     guides: Guide[]
     reviews?: Review[]
 }
@@ -44,4 +38,12 @@ export type Review = {
     id: string
     review: string
     rating: number
+}
+
+export type TourLocation = {
+    id: string
+    day: number
+    type: string
+    coordinates: [number, number]
+    description: string
 }

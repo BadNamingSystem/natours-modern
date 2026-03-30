@@ -46,9 +46,9 @@ function TourDescription({
                 </div>
                 <div>
                     <GradientLabel>Your Tour Guides</GradientLabel>
-                    {guides.map(guide => (
+                    {guides.map((guide, i) => (
                         <IconLabelContent
-                            key={guide.id}
+                            key={guide.id || i}
                             icon={<Avatar src={`/users/${guide.photo}`} alt={`avatar of ${guide.name}`} />}
                             content={guide.name}
                         >

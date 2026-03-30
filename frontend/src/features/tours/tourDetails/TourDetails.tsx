@@ -4,6 +4,7 @@ import { useTour } from "../useTour.ts"
 import TourHero from "./TourHero.tsx"
 import TourDescription from "./TourDescription.tsx"
 import TourPhotos from "./TourPhotos.tsx"
+import Map from "./Map.tsx"
 
 function TourDetails() {
     const { tour, isLoading, error } = useTour()
@@ -18,6 +19,7 @@ function TourDetails() {
         images,
         duration,
         startLocation: { description },
+        locations,
         startDates,
         difficulty,
         ratingsAverage,
@@ -42,6 +44,7 @@ function TourDetails() {
                 guides={guides}
             />
             <TourPhotos images={images} />
+            <Map locations={locations} />
         </>
     )
 }

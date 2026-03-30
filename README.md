@@ -11,7 +11,7 @@ While the original project was built with server-side rendering using Pug templa
 - `/frontend`: Contains the modern React frontend application.
 - `/backend`: Contains the Node.js and Express API.
 
-## 🛠 Technology Stack
+## Technology Stack
 
 ### Frontend
 
