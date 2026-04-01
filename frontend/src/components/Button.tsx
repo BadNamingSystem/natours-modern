@@ -3,7 +3,7 @@ import type { MouseEventHandler, ReactNode } from "react"
 import { cn } from "../utils/cn.ts"
 
 type Colors = "yellow" | "green" | "blue" | "red" | "violet" | "fuchsia" | "white" | "dark" | "emerald"
-type Size = "small" | "medium" | "large"
+type Size = "small" | "medium" | "large" | "cta"
 
 type Props = {
     children: ReactNode
@@ -40,25 +40,28 @@ function Button({
         fuchsia: "bg-fuchsia-400 text-stone-800 hover:bg-fuchsia-300 active:bg-fuchsia-400 focus:ring-fuchsia-400",
         white: "bg-stone-100 text-stone-800 hover:bg-stone-300 active:bg-stone-100 focus:ring-stone-900",
         dark: "bg-zinc-900 text-slate-100 hover:bg-zinc-700 active:bg-zinc-900 focus:ring-zinc-900",
-        emerald: "bg-emerald-600 text-slate-100 active:bg-emerald-500 focus:ring-emerald-700",
+        emerald: "bg-emerald-500 text-slate-50 active:bg-emerald-400 focus:ring-emerald-500",
     }
 
     const heights = {
         small: "h-8",
         medium: "h-11",
         large: "h-14",
+        cta: "h-18",
     }
 
     const paddings = {
         small: "px-3 py-1",
         medium: "px-5",
         large: "px-10 py-8",
+        cta: "px-14 py-10",
     }
 
     const textSizes = {
         small: "text-sm",
         medium: "text-base",
         large: "text-lg",
+        cta: "text-2xl",
     }
 
     const roundStyles = round ? "rounded-full" : "rounded-md"

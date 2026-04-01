@@ -6,6 +6,7 @@ import TourDescription from "./TourDescription.tsx"
 import TourPhotos from "./TourPhotos.tsx"
 import Map from "./Map.tsx"
 import TourReviews from "./TourReviews.tsx"
+import TourCta from "./TourCTA.tsx"
 
 function TourDetails() {
     const { tour, isLoading, error } = useTour()
@@ -48,6 +49,7 @@ function TourDetails() {
             <TourPhotos images={images} />
             <Map locations={locations} />
             <TourReviews reviews={reviews} />
+            <TourCta duration={duration} images={images} />
         </>
     )
 }

@@ -3,7 +3,7 @@ import FooterLink from "./FooterLink.tsx"
 
 function Footer() {
     return (
-        <footer className="flex h-32 flex-row items-center justify-center bg-gray-50 sm:justify-between">
+        <footer className="flex h-56 flex-row items-center justify-center bg-gray-50 sm:justify-between">
             <Logo className="mb-6 ml-8 hidden sm:flex md:ml-16" src="/logo-green.png" alt="natours footer logo" />
             <div className="mr-8 md:mr-16">
                 <ul className="flex list-none flex-row items-center gap-6 md:gap-12">

@@ -19,10 +19,8 @@ function Map({ locations }: { locations: TourLocation[] }) {
             <MapContainer
                 center={center}
                 doubleClickZoom={false}
-                zoom={9}
-                minZoom={9}
-                maxZoom={12}
-                scrollWheelZoom={true}
+                zoom={6}
+                scrollWheelZoom={false}
                 className="h-full w-full"
             >
                 <TileLayer
