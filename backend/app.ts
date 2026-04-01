@@ -65,6 +65,13 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // ROUTES
+app.get("/api/v1/health", (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "Server is running!",
+    })
+})
+
 app.use("/api/v1/tours", tourRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/reviews", reviewRouter)
