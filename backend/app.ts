@@ -14,8 +14,12 @@ import hpp from "hpp"
 const app = express()
 
 const port = process.env.PORT || 3000
-const allowedOrigins = [`http://localhost:${port}`, "http://localhost:5173", process.env.ALLOWED_ORIGIN]
+const allowedOrigins = [process.env.ALLOWED_ORIGIN]
 
+if (process.env.NODE_ENV === "development") {
+    allowedOrigins.push(`http://localhost:${port}`)
+    allowedOrigins.push("http://localhost:5173")
+}
 // CORS - Only allow requests from the frontend
 app.use(
     cors({
