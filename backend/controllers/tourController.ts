@@ -17,10 +17,13 @@ export const getTour = getOne<Tour>(prisma.tour, {
         },
     },
     reviews: {
-        select: {
-            id: true,
-            review: true,
-            rating: true,
+        include: {
+            user: {
+                select: {
+                    name: true,
+                    photo: true,
+                },
+            },
         },
     },
 })
@@ -31,7 +34,19 @@ export const deleteTour = deleteOne<Tour>(prisma.tour)
 export const getTourBySlug = catchAsync(async (req, res, next) => {
     const tour = await prisma.tour.findUnique({
         where: { slug: req.params.slug as string },
-        include: { reviews: true, guides: true },
+        include: {
+            reviews: {
+                include: {
+                    user: {
+                        select: {
+                            name: true,
+                            photo: true,
+                        },
+                    },
+                },
+            },
+            guides: true,
+        },
     })
 
     if (!tour) return next(new AppError("No tour found with that name", 404))

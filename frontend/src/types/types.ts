@@ -24,7 +24,7 @@ export type Tour = {
     }
     locations: TourLocation[]
     guides: Guide[]
-    reviews?: Review[]
+    reviews: Review[]
 }
 
 export type Guide = {
@@ -34,10 +34,33 @@ export type Guide = {
     photo: string
 }
 
+export type Role = "user" | "guide" | "lead-guide" | "admin"
+
+export type User = {
+    id: string
+    name: string
+    email: string
+    photo: string
+    password: string
+    role: Role
+    createdAt: string
+    passwordChangedAt: string | null
+    passwordResetToken: string | null
+    passwordResetExpires: string | null
+    active: boolean
+}
+
 export type Review = {
     id: string
+    userId: string
+    tourId: string
     review: string
     rating: number
+    user: {
+        name: string
+        photo: string
+    }
+    createdAt: string
 }
 
 export type TourLocation = {

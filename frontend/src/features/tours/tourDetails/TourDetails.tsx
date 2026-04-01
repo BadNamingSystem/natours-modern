@@ -5,6 +5,7 @@ import TourHero from "./TourHero.tsx"
 import TourDescription from "./TourDescription.tsx"
 import TourPhotos from "./TourPhotos.tsx"
 import Map from "./Map.tsx"
+import TourReviews from "./TourReviews.tsx"
 
 function TourDetails() {
     const { tour, isLoading, error } = useTour()
@@ -26,6 +27,7 @@ function TourDetails() {
         ratingsQuantity,
         maxGroupSize,
         guides,
+        reviews,
     } = tour
 
     const startDate = new Date(startDates[0]).toLocaleString("en-us", { month: "long", year: "numeric" })
@@ -45,6 +47,7 @@ function TourDetails() {
             />
             <TourPhotos images={images} />
             <Map locations={locations} />
+            <TourReviews reviews={reviews} />
         </>
     )
 }

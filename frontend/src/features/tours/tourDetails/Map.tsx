@@ -12,7 +12,6 @@ const pinIcon = L.icon({
 
 function Map({ locations }: { locations: TourLocation[] }) {
     const center: [number, number] = [locations[0].coordinates[1], locations[0].coordinates[0]]
-
     const lineCoordinates: [number, number][] = locations.map(loc => [loc.coordinates[1], loc.coordinates[0]])
 
     return (
@@ -21,17 +20,18 @@ function Map({ locations }: { locations: TourLocation[] }) {
                 center={center}
                 doubleClickZoom={false}
                 zoom={9}
-                maxZoom={9}
-                scrollWheelZoom={false}
+                minZoom={9}
+                maxZoom={12}
+                scrollWheelZoom={true}
                 className="h-full w-full"
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
                 {/* Connecting lines between locations */}
-                <Polyline positions={lineCoordinates} color="#55c57a" weight={4} opacity={0.6} />
+                <Polyline positions={lineCoordinates} color="#39B24C" weight={4} opacity={0.7} />
 
                 {locations.map((location, i) => (
                     <Marker

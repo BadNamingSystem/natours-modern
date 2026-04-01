@@ -8,7 +8,7 @@ While the original project was built with server-side rendering using Pug templa
 
 ## Project Structure
 
-- `/frontend`: Contains the modern React frontend application.
+- `/frontend`: Contains the React frontend application.
 - `/backend`: Contains the Node.js and Express API.
 
 ## Technology Stack
@@ -20,6 +20,7 @@ While the original project was built with server-side rendering using Pug templa
 - **Styling**: Tailwind CSS 4
 - **State/Caching**: React Query
 - **Routing**: React Router 7
+- **Map**: Leaflet
 - **Icons**: Lucide React
 
 ### Backend
@@ -33,4 +34,4 @@ While the original project was built with server-side rendering using Pug templa
 
 ---
 
-_This project was created for learning purposes and to practice building applications with a modern frontend stack connected to a Node.js backend._
+_This project was created for learning purposes and to practice building applications with a React frontend stack connected to a Node.js backend._

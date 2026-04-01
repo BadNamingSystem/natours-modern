@@ -62,8 +62,8 @@ model Review {
   review    String
   rating    Float
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  tour      Tour     @relation(fields: [tourId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
 
   @@unique([userId, tourId])
   @@map("reviews")
