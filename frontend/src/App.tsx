@@ -4,6 +4,7 @@ import FullPage from "./components/FullPage.tsx"
 import BaseLayout from "./components/BaseLayout.tsx"
 import Spinner from "./components/Spinner.tsx"
 import { Toaster } from "react-hot-toast"
+import ProtectedRoute from "./pages/ProtectedRoute.tsx"
 
 const Home = lazy(() => import("./pages/Home.tsx"))
 const Tour = lazy(() => import("./pages/Tour.tsx"))
@@ -28,7 +29,14 @@ function App() {
                         <Route path="/tours/:slug" element={<Tour />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
-                        <Route path="account" element={<Account />} />
+                        <Route
+                            path="/me"
+                            element={
+                                <ProtectedRoute>
+                                    <Account />
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
 
                     <Route path="*" element={<PageNotFound />} />

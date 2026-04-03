@@ -8,8 +8,11 @@ export function useUser() {
     return {
         isPending,
         user,
+        fullName: user?.name,
         name: user?.name.split(" ")[0],
+        email: user?.email,
         photo: user?.photo,
+        role: user?.role,
         isAuthenticated: !!user,
     }
 }

@@ -1,5 +1,7 @@
+import UserSettings from "../features/authentication/UserSettings.tsx"
+
 function Account() {
-    return <div>Account Settings Page</div>
+    return <UserSettings />
 }
 
 export default Account

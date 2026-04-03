@@ -13,7 +13,7 @@ function Footer() {
                     <FooterLink path="#">Careers</FooterLink>
                     <FooterLink path="#">Contact</FooterLink>
                 </ul>
-                <p className="mt-4 text-center text-base text-stone-400 italic sm:text-right sm:text-lg md:text-xl">
+                <p className="mt-4 text-center text-base text-stone-500 italic sm:text-right sm:text-lg md:text-2xl">
                     &copy; {new Date().getFullYear()} · Inspired by{" "}
                     <a target="_blank" className="font-semibold underline" href="https://natours.dev/">
                         Natours

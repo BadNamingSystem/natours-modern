@@ -31,7 +31,7 @@ function LoginForm() {
                     type="password"
                     id="password"
                     name="password"
-                    label="Pawssword"
+                    label="Password"
                     placeholder="••••••••"
                     autoComplete="current-password"
                     required

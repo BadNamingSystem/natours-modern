@@ -13,7 +13,7 @@ function NavMenu() {
             <ul className="flex list-none flex-row items-center gap-6 text-2xl font-light text-gray-100 sm:gap-12">
                 {isAuthenticated ? (
                     <>
-                        <NavigationLink path="/account" className="flex items-center gap-2">
+                        <NavigationLink path="/me" className="flex items-center gap-2">
                             <Avatar src={`/users/${photo || "default.jpg"}`} alt="user photo" /> <span>{name}</span>
                         </NavigationLink>
                         <Button
