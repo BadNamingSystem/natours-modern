@@ -28,6 +28,7 @@ const createSendToken = (user: User, statusCode: number, req: Request, res: Resp
         // because the frontend is served from a different domain than the backend and using HTTPS
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production" || req.secure || req.get("x-forwarded-proto") === "https",
+        partitioned: process.env.NODE_ENV === "production",
     }
 
     // safely exclude password from response
