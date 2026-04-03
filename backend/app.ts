@@ -24,8 +24,6 @@ if (process.env.NODE_ENV === "development") {
 app.use(
     cors({
         origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-            console.log("Request from origin:", origin)
-
             if (!origin) return callback(null, true)
             if (allowedOrigins.indexOf(origin) === -1) {
                 const msg = "The CORS policy for this site does not allow access from the specified Origin."
@@ -55,26 +53,26 @@ app.use(
     }),
 )
 
-// Rate limiting
-const limiter = rateLimit({
-    max: 100,
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    message: "Too many requests from this IP, please try again in 15 minutes!",
+// ROUTES
+app.get("/", (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "Natours API is live.",
+    })
 })
-app.use("/api", limiter)
 
 // Development logging
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"))
 }
 
-// ROUTES
-app.get("/api/v1/health", (req, res) => {
-    res.status(200).json({
-        status: "success",
-        message: "Server is running!",
-    })
+// Rate limiting
+const limiter = rateLimit({
+    max: 1000,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    message: "Too many requests from this IP, please try again in 15 minutes!",
 })
+app.use("/api", limiter)
 
 app.use("/api/v1/tours", tourRouter)
 app.use("/api/v1/users", userRouter)
