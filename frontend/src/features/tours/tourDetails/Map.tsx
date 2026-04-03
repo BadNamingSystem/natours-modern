@@ -19,7 +19,7 @@ function Map({ locations }: { locations: TourLocation[] }) {
             <MapContainer
                 center={center}
                 doubleClickZoom={false}
-                zoom={6}
+                zoom={8}
                 scrollWheelZoom={false}
                 className="h-full w-full"
             >

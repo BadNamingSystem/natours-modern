@@ -6,7 +6,7 @@ function BaseLayout() {
     return (
         <div className="flex min-h-screen flex-col rounded-sm">
             <Header />
-            <main className="grow bg-gray-50">
+            <main className="grow bg-gray-100">
                 <Outlet />
             </main>
             <Footer />

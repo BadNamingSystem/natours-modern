@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import Spinner from "../../../components/Spinner.tsx"
 import PageNotFound from "../../../pages/PageNotFound.tsx"
 import { useTour } from "../useTour.ts"
@@ -10,6 +11,12 @@ import TourCta from "./TourCTA.tsx"
 
 function TourDetails() {
     const { tour, isLoading, error } = useTour()
+
+    useEffect(() => {
+        if (tour?.name) {
+            document.title = `Natours Reloaded | ${tour.name}`
+        }
+    }, [tour])
 
     if (isLoading) return <Spinner />
     if (error || !tour) return <PageNotFound />

@@ -29,7 +29,7 @@ function Button({
     const isIconOnly = Children.count(children) >= 1 && typeof children !== "string"
 
     const baseStyles =
-        "font-sans cursor-pointer font-semibold transition-all duration-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        "font-sans cursor-pointer font-semibold transition-all duration-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 
     const colors = {
         yellow: "bg-yellow-400 text-stone-800 hover:bg-yellow-300 active:bg-yellow-400 focus:ring-yellow-400",

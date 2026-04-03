@@ -28,7 +28,7 @@ function TourDescription({
     return (
         <section className="mt-[-9vw] flex font-light text-neutral-500">
             {/* LEFT SIDE (QUICK FACTS) */}
-            <div className="flex flex-[0_0_50%] flex-col items-center bg-gray-50 px-[8vw] pt-[14vw] pb-[4vw]">
+            <div className="flex flex-[0_0_50%] flex-col items-center bg-gray-100 px-[8vw] pt-[14vw] pb-[4vw]">
                 <div className="mb-28">
                     <GradientLabel>Quick Facts</GradientLabel>
                     <IconLabelContent icon={<Calendar color="#39B24C" />} content={startDate}>
@@ -59,7 +59,7 @@ function TourDescription({
             </div>
 
             {/* RIGHT SIDE (DESCRIPTION) */}
-            <div className="flex-[0_0_50%] bg-white px-[8vw] pt-[14vw] pb-[4vw]">
+            <div className="flex-[0_0_50%] bg-gray-50 px-[8vw] pt-[14vw] pb-[4vw]">
                 <GradientLabel>About {name} Tour</GradientLabel>
                 {tourDescription?.split("\n").map((para, i) => (
                     <p key={i} className="mb-8 text-[1.7rem]">

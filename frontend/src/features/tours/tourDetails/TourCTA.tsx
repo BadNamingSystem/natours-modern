@@ -4,7 +4,7 @@ import GradientLabel from "../../../components/GradientLabel.tsx"
 
 function TourCta({ duration, images }: { duration: number; images: string[] }) {
     return (
-        <section className="mt-[-8vw] bg-gray-50 px-12 pt-160 pb-44">
+        <section className="mt-[-8vw] bg-gray-100 px-12 pt-160 pb-44">
             <div className="relative mx-auto flex max-w-420 items-center overflow-hidden rounded-4xl bg-white py-36 pr-20 pl-100 shadow-2xl">
                 {/* Overlapping Images & Logo */}
                 <div className="absolute left-0 h-full w-120 overflow-hidden">
