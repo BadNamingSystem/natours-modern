@@ -9,6 +9,10 @@ import { exclude } from "../utils/helpers.js"
 import crypto from "crypto"
 import sendEmail from "../utils/email.js"
 
+interface ExtendedCookieOptions extends CookieOptions {
+    partitioned?: boolean
+}
+
 const signToken = (id: string) => {
     return jwt.sign({ id }, process.env.JWT_SECRET!, {
         expiresIn: process.env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
@@ -20,7 +24,7 @@ const createSendToken = (user: User, statusCode: number, req: Request, res: Resp
     // Fallback to 90 days if env variable is missing or invalid
     const cookieExpiresIn = parseInt(process.env.JWT_COOKIE_EXPIRES_IN || "90", 10)
 
-    const cookieOptions: CookieOptions = {
+    const cookieOptions: ExtendedCookieOptions = {
         expires: new Date(Date.now() + cookieExpiresIn * 24 * 60 * 60 * 1000),
         httpOnly: true,
 
