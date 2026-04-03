@@ -15,7 +15,7 @@ const signToken = (id: string) => {
     })
 }
 
-const createSendToken = (user: User, statusCode: number, res: Response) => {
+const createSendToken = (user: User, statusCode: number, req: Request, res: Response) => {
     const token = signToken(user.id)
     // Fallback to 90 days if env variable is missing or invalid
     const cookieExpiresIn = parseInt(process.env.JWT_COOKIE_EXPIRES_IN || "90", 10)
@@ -23,10 +23,12 @@ const createSendToken = (user: User, statusCode: number, res: Response) => {
     const cookieOptions: CookieOptions = {
         expires: new Date(Date.now() + cookieExpiresIn * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        sameSite: "lax",
-    }
 
-    if (process.env.NODE_ENV === "production") cookieOptions.secure = true
+        // For production, set sameSite to "none" and secure to true
+        // because the frontend is served from a different domain than the backend and using HTTPS
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production" || req.secure || req.get("x-forwarded-proto") === "https",
+    }
 
     // safely exclude password from response
     const userWithoutPassword = exclude(user, ["password"])
@@ -56,7 +58,7 @@ export const signup = catchAsync(async (req: Request, res: Response, next: NextF
     })
 
     // 3) Send token to client
-    createSendToken(newUser, 201, res)
+    createSendToken(newUser, 201, req, res)
 })
 
 export const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -75,7 +77,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     }
 
     // 3) If everything ok, send token to client
-    createSendToken(user, 200, res)
+    createSendToken(user, 200, req, res)
 })
 
 export const logout = catchAsync(async (req, res) => {
@@ -115,7 +117,7 @@ export const updatePassword = catchAsync(async (req: Request, res: Response, nex
     })
 
     // 5) Log user in, send JWT
-    createSendToken(updatedUser, 200, res)
+    createSendToken(updatedUser, 200, req, res)
 })
 
 export const forgotPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -206,5 +208,5 @@ export const resetPassword = catchAsync(async (req: Request, res: Response, next
         },
     })
 
-    createSendToken(updatedUser, 200, res)
+    createSendToken(updatedUser, 200, req, res)
 })
