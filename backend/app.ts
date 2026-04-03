@@ -13,6 +13,9 @@ import hpp from "hpp"
 
 const app = express()
 
+// Trust first proxy for rate limiting.
+app.set("trust proxy", 1)
+
 const port = process.env.PORT || 3000
 const allowedOrigins = [process.env.ALLOWED_ORIGIN]
 
