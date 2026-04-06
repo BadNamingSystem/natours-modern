@@ -21,7 +21,6 @@ backend/generated/
 .vscode/
 *.swp
 *.swo
-LLM.txt
 
 # OS files
 .DS_Store

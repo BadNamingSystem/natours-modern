@@ -24,6 +24,7 @@ export const getCurrentUser = async () => {
         credentials: "include",
     })
     const data = await response.json()
+
     if (!response.ok) return null
 
     return data.data as User
@@ -34,5 +35,6 @@ export const logout = async () => {
         method: "GET",
         credentials: "include",
     })
+
     if (!response.ok) throw new Error("Logout failed")
 }

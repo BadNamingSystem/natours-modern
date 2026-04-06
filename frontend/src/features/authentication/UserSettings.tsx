@@ -1,6 +1,8 @@
 import { Briefcase, CreditCard, Settings, Star } from "lucide-react"
 import UserNavItem from "../../components/UserNavItem.tsx"
-import UserDataForm from "./UserDataForm.tsx"
+import UpdateUserDataForm from "./UpdateUserDataForm.tsx"
+import UpdatePasswordForm from "./UpdatePasswordForm.tsx"
+import Spacer from "../../components/Spacer.tsx"
 
 function UserSettings() {
     return (
@@ -15,7 +17,9 @@ function UserSettings() {
                     </ul>
                 </nav>
                 <div className="shrink grow basis-0 py-28 text-stone-500">
-                    <UserDataForm />
+                    <UpdateUserDataForm />
+                    <Spacer />
+                    <UpdatePasswordForm />
                 </div>
             </div>
         </main>

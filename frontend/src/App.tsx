@@ -44,17 +44,17 @@ function App() {
             </Suspense>
             <Toaster
                 position="top-center"
-                gutter={12}
-                containerStyle={{ margin: "8px" }}
+                gutter={20}
+                containerStyle={{ margin: "16px" }}
                 toastOptions={{
                     success: { duration: 3000 },
                     error: { duration: 5000 },
                     style: {
-                        fontSize: "16px",
-                        maxWidth: "500px",
-                        padding: "16px 24px",
-                        backgroundColor: "#F4F4F6",
-                        color: "#84849A",
+                        fontSize: "24px",
+                        maxWidth: "600px",
+                        padding: "22px 26px",
+                        backgroundColor: "#e5e3e3",
+                        color: "#555050",
                     },
                 }}
             />

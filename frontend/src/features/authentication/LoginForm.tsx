@@ -42,6 +42,7 @@ function LoginForm() {
                     color="emerald"
                     className="px-12 py-8 text-3xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl"
                     round
+                    ring
                     disabled={isLoggingIn}
                 >
                     Login
