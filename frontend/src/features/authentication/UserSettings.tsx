@@ -18,7 +18,7 @@ function UserSettings() {
                 </nav>
                 <div className="shrink grow basis-0 py-28 text-stone-500">
                     <UpdateUserDataForm />
-                    <Spacer />
+                    <Spacer padding={26} />
                     <UpdatePasswordForm />
                 </div>
             </div>
