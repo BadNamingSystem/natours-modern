@@ -32,17 +32,14 @@ router.route("/tours-within/:distance/center/:latlng/unit/:unit").get(getToursWi
 router.route("/distances/:latlng/unit/:unit").get(getDistances)
 
 // TOUR CRUD ROUTES
-router
-    .route("/")
-    .get(getAllTours)
-    .post(protect, restrictTo("admin", "lead-guide"), setTourSlug, validate(tourSchema), createTour)
+router.route("/").get(getAllTours).post(protect, restrictTo("admin"), setTourSlug, validate(tourSchema), createTour)
 
 router.route("/name/:slug").get(getTourBySlug)
 
 router
     .route("/:id")
     .get(getTour)
-    .patch(protect, restrictTo("admin", "lead-guide"), setTourSlug, validate(tourUpdateSchema), updateTour)
+    .patch(protect, restrictTo("admin"), setTourSlug, validate(tourUpdateSchema), updateTour)
     .delete(protect, restrictTo("admin"), deleteTour)
 
 export default router

@@ -18,6 +18,33 @@ export const login = async ({ email, password }: { email: string; password: stri
     return data.data.user as User
 }
 
+export const signup = async ({
+    name,
+    email,
+    password,
+    passwordConfirm,
+}: {
+    name: string
+    email: string
+    password: string
+    passwordConfirm: string
+}) => {
+    const response = await fetch(`${API_URL}users/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, passwordConfirm }),
+        credentials: "include",
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data.message || "Something went wrong")
+    }
+
+    return data.data.user as User
+}
+
 export const getCurrentUser = async () => {
     const response = await fetch(`${API_URL}users/me`, {
         method: "GET",
