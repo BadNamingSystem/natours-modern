@@ -19,6 +19,10 @@ export const updateMe = catchAsync(async (req: Request, res: Response, next: Nex
         return next(new AppError("This route is not for password updates. Please use /update-password.", 400))
     }
 
+    if (!req.user!.canModify) {
+        return next(new AppError("You cannot update this account", 403))
+    }
+
     // 2) Filter out unwanted fields that are not allowed to be updated
     const filteredBody = filterObj(req.body, "name", "email")
 

@@ -48,6 +48,7 @@ export type User = {
     passwordResetToken: string | null
     passwordResetExpires: string | null
     active: boolean
+    canModify: boolean
 }
 
 export type Review = {

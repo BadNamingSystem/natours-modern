@@ -14,6 +14,7 @@ export function useUser() {
         email: user?.email,
         photo: user?.photo,
         role: user?.role,
+        canModify: user?.canModify,
         isAuthenticated: !!user,
     }
 }

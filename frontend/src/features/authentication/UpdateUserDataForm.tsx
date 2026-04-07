@@ -4,15 +4,20 @@ import { useUser } from "./useUser.ts"
 import Avatar from "../../components/Avatar.tsx"
 import Button from "../../components/Button.tsx"
 import { useUpdateMe } from "./useUpdateMe.ts"
+import toast from "react-hot-toast"
 
 function UpdateUserDataForm() {
-    const { fullName, email, photo } = useUser()
+    const { fullName, email, photo, canModify } = useUser()
     const { updateMe, isUpdatingMe } = useUpdateMe()
 
     function handleUpdateUserData(formData: FormData) {
         const name = formData.get("name") as string
         const email = formData.get("email") as string
         if (!name || !email) return
+        if (!canModify) {
+            toast.error("Cannot modify a test account")
+            return
+        }
 
         updateMe({ name, email })
     }

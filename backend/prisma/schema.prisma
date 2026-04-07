@@ -49,6 +49,7 @@ model User {
   passwordResetToken   String?
   passwordResetExpires DateTime?
   active               Boolean   @default(true)
+  canModify            Boolean   @default(true)
   reviews              Review[]
   tours                Tour[]    @relation("TourGuides")
 

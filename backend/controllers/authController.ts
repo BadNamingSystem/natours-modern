@@ -101,6 +101,10 @@ export const updatePassword = catchAsync(async (req: Request, res: Response, nex
         return next(new AppError("Please provide current password, new password, and confirmation", 400))
     }
 
+    if (!req.user!.canModify) {
+        return next(new AppError("You cannot update this account", 403))
+    }
+
     // 1) Get user from request (provided by protect middleware)
     const user = req.user!
 
@@ -134,8 +138,8 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response, nex
 
     // 1. Get user based on posted email
     const user = await prisma.user.findUnique({ where: { email } })
-    if (!user || !user.active) {
-        return next(new AppError("There is no active user registered with the provided email address", 401))
+    if (!user || !user.active || !user.canModify) {
+        return next(new AppError("There is no active user registered with the provided email address or this account is protected.", 401))
     }
 
     // 2. Generate reset token
@@ -198,6 +202,10 @@ export const resetPassword = catchAsync(async (req: Request, res: Response, next
 
     if (!user) {
         return next(new AppError("Token is invalid or has expired", 400))
+    }
+
+    if (!user.canModify) {
+        return next(new AppError("This account is protected and its password cannot be reset.", 403))
     }
 
     // 2. Hash new password and update user

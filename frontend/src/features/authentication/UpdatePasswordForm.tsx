@@ -2,10 +2,12 @@ import GradientLabel from "../../components/GradientLabel.tsx"
 import Input from "../../components/Input.tsx"
 import Button from "../../components/Button.tsx"
 import { useUpdatePassword } from "./useUpdatePassword.ts"
+import { useUser } from "./useUser.ts"
 import toast from "react-hot-toast"
 import { useRef } from "react"
 
 function UpdatePasswordForm() {
+    const { canModify } = useUser()
     const { updatePassword, isUpdatingPassword } = useUpdatePassword()
     const formRef = useRef<HTMLFormElement>(null)
 
@@ -16,6 +18,11 @@ function UpdatePasswordForm() {
 
         if (password !== passwordConfirm) {
             toast.error("Passwords do not match")
+            return
+        }
+
+        if (!canModify) {
+            toast.error("Cannot modify a test account")
             return
         }
 

@@ -18,6 +18,7 @@ const userBaseSchema = z.object({
     photo: z.string().optional(),
     role: z.enum(["user", "guide", "lead-guide", "admin"]).optional(),
     active: z.boolean().optional(),
+    canModify: z.boolean().default(true),
 })
 
 export const signupSchema = z.object({
