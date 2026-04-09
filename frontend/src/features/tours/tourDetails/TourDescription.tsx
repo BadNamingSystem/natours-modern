@@ -3,6 +3,7 @@ import IconLabelContent from "../../../components/IconLabelContent.tsx"
 import { Calendar, Star, TrendingUp, User } from "lucide-react"
 import type { Guide } from "../../../types/types.ts"
 import Avatar from "../../../components/Avatar.tsx"
+import { SERVER_URL } from "../../../config.ts"
 
 type Props = {
     name: string
@@ -49,7 +50,7 @@ function TourDescription({
                     {guides.map((guide, i) => (
                         <IconLabelContent
                             key={guide.id || i}
-                            icon={<Avatar src={`/users/${guide.photo}`} alt={`avatar of ${guide.name}`} />}
+                            icon={<Avatar src={`${SERVER_URL}img/users/${guide.photo}`} alt={`avatar of ${guide.name}`} />}
                             content={guide.name}
                         >
                             {guide.role}

@@ -5,6 +5,39 @@ import catchAsync from "../utils/catchAsync.js"
 import AppError from "../utils/appError.js"
 import { filterObj } from "../utils/helpers.js"
 import { User } from "@prisma/client"
+import multer, { FileFilterCallback } from "multer"
+import sharp from "sharp"
+
+const multerStorage = multer.memoryStorage()
+
+const multerFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true)
+    } else {
+        cb(new AppError("Not an image! Please upload only images.", 400))
+    }
+}
+
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter,
+})
+
+export const uploadUserPhoto = upload.single("photo")
+
+export const resizeUserPhoto = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.file) return next()
+
+    req.file.filename = `user-${req.user!.id}-${Date.now()}.jpeg`
+
+    await sharp(req.file.buffer)
+        .resize(500, 500)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/users/${req.file.filename}`)
+
+    next()
+})
 
 // Middleware to get currently logged in user for /me route
 export const getMe = (req: Request, res: Response, next: NextFunction) => {
@@ -25,6 +58,7 @@ export const updateMe = catchAsync(async (req: Request, res: Response, next: Nex
 
     // 2) Filter out unwanted fields that are not allowed to be updated
     const filteredBody = filterObj(req.body, "name", "email")
+    if (req.file) filteredBody.photo = req.file.filename
 
     // 3) Update user document
     const updatedUser = await prisma.user.update({

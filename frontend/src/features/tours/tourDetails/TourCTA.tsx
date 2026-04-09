@@ -1,6 +1,7 @@
 import Logo from "../../../components/Logo.tsx"
 import Button from "../../../components/Button.tsx"
 import GradientLabel from "../../../components/GradientLabel.tsx"
+import { SERVER_URL } from "../../../config.ts"
 
 function TourCta({ duration, images }: { duration: number; images: string[] }) {
     return (
@@ -12,12 +13,12 @@ function TourCta({ duration, images }: { duration: number; images: string[] }) {
                         <Logo src="/logo-white.png" alt="Natours logo" />
                     </div>
                     <img
-                        src={`/tours/${images[1]}`}
+                        src={`${SERVER_URL}img/tours/${images[1]}`}
                         alt="Tour image"
                         className="absolute top-1/2 left-10 z-20 h-64 w-64 -translate-y-1/2 rounded-full object-cover shadow-lg [clip-path:circle(50%)]"
                     />
                     <img
-                        src={`/tours/${images[2]}`}
+                        src={`${SERVER_URL}img/tours/${images[2]}`}
                         alt="Tour image"
                         className="absolute top-1/2 left-22 z-10 h-64 w-64 -translate-y-1/2 rounded-full object-cover shadow-lg [clip-path:circle(50%)]"
                     />

@@ -1,4 +1,4 @@
-import UserSettings from "../features/authentication/UserSettings.tsx"
+import UserSettings from "../features/user/UserSettings.tsx"
 
 function Account() {
     return <UserSettings />

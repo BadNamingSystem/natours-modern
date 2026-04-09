@@ -5,6 +5,64 @@ import { getAll, getOne, createOne, updateOne, deleteOne } from "./handlerFactor
 import { slugify } from "../utils/helpers.js"
 import catchAsync from "../utils/catchAsync.js"
 import AppError from "../utils/appError.js"
+import multer, { FileFilterCallback } from "multer"
+import sharp from "sharp"
+
+const multerStorage = multer.memoryStorage()
+
+const multerFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true)
+    } else {
+        cb(new AppError("Not an image! Please upload only images.", 400))
+    }
+}
+
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter,
+})
+
+export const uploadTourImages = upload.fields([
+    { name: "imageCover", maxCount: 1 },
+    { name: "images", maxCount: 3 },
+])
+
+export const resizeTourImages = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.files || Array.isArray(req.files) || !req.files.imageCover || !req.files.images) return next()
+
+    const files = req.files
+
+    // 1) Resize imageCover
+    const imageCoverFilename = `tour-${req.params.id}-${Date.now()}-cover.jpeg`
+
+    await sharp(files.imageCover[0].buffer)
+        .resize(2000, 1333)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/tours/${imageCoverFilename}`)
+
+    req.body.imageCover = imageCoverFilename
+
+    // 2) Resize images
+    req.body.images = []
+
+    await Promise.all(
+        files.images.map(async (file, index) => {
+            const filename = `tour-${req.params.id}-${Date.now()}-${index + 1}.jpeg`
+
+            await sharp(file.buffer)
+                .resize(2000, 1333)
+                .toFormat("jpeg")
+                .jpeg({ quality: 90 })
+                .toFile(`public/img/tours/${filename}`)
+
+            req.body.images.push(filename)
+        }),
+    )
+
+    next()
+})
 
 export const getAllTours = getAll<Tour>(prisma.tour)
 export const getTour = getOne<Tour>(prisma.tour, {

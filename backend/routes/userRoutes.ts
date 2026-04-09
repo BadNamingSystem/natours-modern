@@ -7,6 +7,8 @@ import {
     getMe,
     updateMe,
     deleteMe,
+    uploadUserPhoto,
+    resizeUserPhoto,
 } from "../controllers/userController.js"
 import { signup, login, logout, updatePassword, forgotPassword, resetPassword } from "../controllers/authController.js"
 import { validate } from "../middleware/validate.js"
@@ -38,7 +40,7 @@ router.patch("/update-password", validate(updatePasswordSchema), updatePassword)
 
 // User info routes
 router.get("/me", getMe, getUser)
-router.patch("/update-me", updateMe)
+router.patch("/update-me", uploadUserPhoto, resizeUserPhoto, updateMe)
 router.delete("/delete-me", deleteMe)
 
 // RESTRICTED ROUTES - Admin only

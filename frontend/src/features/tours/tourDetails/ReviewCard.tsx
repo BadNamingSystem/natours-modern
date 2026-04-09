@@ -1,4 +1,5 @@
 import type { Review } from "../../../types/types.ts"
+import { SERVER_URL } from "../../../config.ts"
 
 function ReviewCard({ review }: { review: Review }) {
     const {
@@ -11,7 +12,7 @@ function ReviewCard({ review }: { review: Review }) {
         <li className="flex w-120 shrink-0 snap-center flex-col items-center rounded-sm bg-stone-50 p-16 shadow-xl">
             <div className="mb-8 flex items-center gap-6">
                 <img
-                    src={`/users/${photo || "default.jpg"}`}
+                    src={`${SERVER_URL}img/users/${photo}`}
                     alt={`Avatar of ${name}`}
                     className="h-16 w-16 rounded-full"
                 />

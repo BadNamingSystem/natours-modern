@@ -41,7 +41,7 @@ model User {
   id                   String    @id @default(uuid())
   name                 String
   email                String    @unique
-  photo                String?   @default("")
+  photo                String    @default("default.jpg")
   password             String
   role                 String    @default("user")
   createdAt            DateTime  @default(now())

@@ -15,7 +15,7 @@ const userBaseSchema = z.object({
         .refine(val => isValidEmail(val), {
             message: "Please provide a valid email",
         }),
-    photo: z.string().optional(),
+    photo: z.string().default("default.jpg"),
     role: z.enum(["user", "guide", "lead-guide", "admin"]).optional(),
     active: z.boolean().optional(),
     canModify: z.boolean().default(true),

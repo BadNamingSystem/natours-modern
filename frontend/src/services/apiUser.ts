@@ -1,11 +1,18 @@
 import { API_URL } from "../config.ts"
 import type { User } from "../types/types.ts"
 
-export const updateMe = async ({ name, email }: { name: string; email: string }) => {
+export const updateMe = async ({ name, email, photo }: { name: string; email: string; photo?: File }) => {
+    const formData = new FormData()
+    formData.append("name", name)
+    formData.append("email", email)
+
+    if (photo && photo.size > 0) {
+        formData.append("photo", photo)
+    }
+
     const response = await fetch(`${API_URL}users/update-me`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: formData,
         credentials: "include",
     })
 

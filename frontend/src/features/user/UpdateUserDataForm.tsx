@@ -1,3 +1,4 @@
+import { useState } from "react"
 import GradientLabel from "../../components/GradientLabel.tsx"
 import Input from "../../components/Input.tsx"
 import { useUser } from "./useUser.ts"
@@ -10,12 +11,15 @@ import toast from "react-hot-toast"
 function UpdateUserDataForm() {
     const { fullName, email, photo, canModify } = useUser()
     const { updateMe, isUpdatingMe } = useUpdateMe()
+    const [selectedFileName, setSelectedFileName] = useState("")
 
     function handleUpdateUserData(formData: FormData) {
         const name = formData.get("name") as string
         const email = formData.get("email") as string
         const photo = formData.get("photo") as File
+
         if (!name || !email) return
+
         if (!canModify) {
             toast.error("Cannot modify a test account")
             return
@@ -36,13 +40,21 @@ function UpdateUserDataForm() {
                         alt={`photo of ${fullName}`}
                         className="h-32 w-32 shrink-0"
                     />
-                    <input type="file" accept="image/*" id="photo" name="photo" className="hidden" />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="photo"
+                        name="photo"
+                        className="hidden"
+                        onChange={e => setSelectedFileName(e.target.files?.[0]?.name || "")}
+                    />
                     <label
                         htmlFor="photo"
                         className="cursor-pointer border-b border-emerald-500 px-3 py-2 text-[1.8rem] text-emerald-500 transition-colors duration-400 hover:bg-emerald-500 hover:text-white"
                     >
                         Choose new photo
                     </label>
+                    {selectedFileName && <p className="text-2xl text-stone-500 italic">Selected: {selectedFileName}</p>}
                 </div>
                 <div className="mt-10 flex justify-end">
                     <Button

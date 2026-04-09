@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect } from "react"
 import { useNavigate } from "react-router"
-import { useUser } from "../features/authentication/useUser"
+import { useUser } from "../features/user/useUser.ts"
 import FullPage from "../components/FullPage.tsx"
 import Spinner from "../components/Spinner.tsx"
 

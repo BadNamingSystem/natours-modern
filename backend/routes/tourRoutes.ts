@@ -8,6 +8,8 @@ import {
     aliasTopTours,
     setTourSlug,
     getTourBySlug,
+    uploadTourImages,
+    resizeTourImages,
 } from "../controllers/tourController.js"
 import { getTourStats, getMonthlyPlan, getDistances, getToursWithin } from "../controllers/tourStatsController.js"
 import { validate } from "../middleware/validate.js"
@@ -39,7 +41,7 @@ router.route("/name/:slug").get(getTourBySlug)
 router
     .route("/:id")
     .get(getTour)
-    .patch(protect, restrictTo("admin"), setTourSlug, validate(tourUpdateSchema), updateTour)
+    .patch(protect, restrictTo("admin", "lead-guide"), uploadTourImages, resizeTourImages, setTourSlug, validate(tourUpdateSchema), updateTour)
     .delete(protect, restrictTo("admin"), deleteTour)
 
 export default router

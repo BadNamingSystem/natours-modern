@@ -5,6 +5,8 @@ declare global {
     namespace Express {
         interface Request {
             user?: User
+            file?: Multer.File
+            files?: { [fieldname: string]: Multer.File[] } | Multer.File[]
         }
     }
 }

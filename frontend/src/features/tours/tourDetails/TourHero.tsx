@@ -1,4 +1,5 @@
 import { Clock, MapPin } from "lucide-react"
+import { SERVER_URL } from "../../../config.ts"
 
 type Props = {
     name: string
@@ -13,7 +14,7 @@ function TourHero({ name, imageCover, duration, startingFrom }: Props) {
             {/* Background image + overlay */}
             <div className="h-full">
                 <div className="absolute h-full w-full bg-linear-to-br from-green-800 to-green-600 opacity-45"></div>
-                <img className="h-full w-full object-cover" src={`/tours/${imageCover}`} alt={`${name} image cover`} />
+                <img className="h-full w-full object-cover" src={`${SERVER_URL}img/tours/${imageCover}`} alt={`${name} image cover`} />
             </div>
 
             <div className="absolute top-[45%] left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-white">
