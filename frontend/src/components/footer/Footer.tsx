@@ -7,7 +7,7 @@ function Footer() {
             <Logo className="mb-6 ml-8 hidden sm:flex md:ml-16" src="/logo-green.png" alt="natours footer logo" />
             <div className="mr-8 md:mr-16">
                 <ul className="flex list-none flex-row items-center gap-6 md:gap-12">
-                    <FooterLink path="#">About Us</FooterLink>
+                    <FooterLink path="https://github.com/BadNamingSystem/natours-modern">Github</FooterLink>
                     <FooterLink path="#">Download App</FooterLink>
                     <FooterLink path="#">Become a guide</FooterLink>
                     <FooterLink path="#">Careers</FooterLink>

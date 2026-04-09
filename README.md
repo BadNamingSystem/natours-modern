@@ -22,6 +22,7 @@ While the original project was built with server-side rendering using Pug templa
 - **Routing**: React Router 7
 - **Map**: Leaflet
 - **Icons**: Lucide React
+- **React-Hot-Toast**: Toast notifications
 
 ### Backend
 
@@ -31,6 +32,11 @@ While the original project was built with server-side rendering using Pug templa
 - **ORM**: Prisma
 - **Validation**: Zod
 - **Authentication**: JWT & Bcrypt
+- **Multer/Sharp**: Image processing
+
+### Note
+
+The server is deployed on Render free tier, so it will sleep after 15 minutes of inactivity. It takes about 45-60 seconds to spin back up.
 
 ---
 
