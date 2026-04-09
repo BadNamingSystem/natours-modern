@@ -1,6 +1,7 @@
 import GradientLabel from "../../components/GradientLabel.tsx"
 import Input from "../../components/Input.tsx"
 import { useUser } from "./useUser.ts"
+import { SERVER_URL } from "../../config.ts"
 import Avatar from "../../components/Avatar.tsx"
 import Button from "../../components/Button.tsx"
 import { useUpdateMe } from "./useUpdateMe.ts"
@@ -13,13 +14,14 @@ function UpdateUserDataForm() {
     function handleUpdateUserData(formData: FormData) {
         const name = formData.get("name") as string
         const email = formData.get("email") as string
+        const photo = formData.get("photo") as File
         if (!name || !email) return
         if (!canModify) {
             toast.error("Cannot modify a test account")
             return
         }
 
-        updateMe({ name, email })
+        updateMe({ name, email, photo })
     }
 
     return (
@@ -30,7 +32,7 @@ function UpdateUserDataForm() {
                 <Input type="text" defaultValue={email} id="email" name="email" label="Email address" />
                 <div className="mb-12 flex items-center gap-8 py-4">
                     <Avatar
-                        src={`/users/${photo || "default.jpg"}`}
+                        src={`${SERVER_URL}img/users/${photo}`}
                         alt={`photo of ${fullName}`}
                         className="h-32 w-32 shrink-0"
                     />
