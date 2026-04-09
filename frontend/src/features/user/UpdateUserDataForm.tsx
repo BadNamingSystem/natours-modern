@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { X } from "lucide-react"
 import GradientLabel from "../../components/GradientLabel.tsx"
 import Input from "../../components/Input.tsx"
 import { useUser } from "./useUser.ts"
@@ -12,6 +13,12 @@ function UpdateUserDataForm() {
     const { fullName, email, photo, canModify } = useUser()
     const { updateMe, isUpdatingMe } = useUpdateMe()
     const [selectedFileName, setSelectedFileName] = useState("")
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    function handleClearPhoto() {
+        setSelectedFileName("")
+        if (fileInputRef.current) fileInputRef.current.value = ""
+    }
 
     function handleUpdateUserData(formData: FormData) {
         const name = formData.get("name") as string
@@ -38,9 +45,10 @@ function UpdateUserDataForm() {
                     <Avatar
                         src={`${SERVER_URL}img/users/${photo}`}
                         alt={`photo of ${fullName}`}
-                        className="h-32 w-32 shrink-0"
+                        className="h-40 w-40 shrink-0"
                     />
                     <input
+                        ref={fileInputRef}
                         type="file"
                         accept="image/*"
                         id="photo"
@@ -48,13 +56,27 @@ function UpdateUserDataForm() {
                         className="hidden"
                         onChange={e => setSelectedFileName(e.target.files?.[0]?.name || "")}
                     />
-                    <label
-                        htmlFor="photo"
-                        className="cursor-pointer border-b border-emerald-500 px-3 py-2 text-[1.8rem] text-emerald-500 transition-colors duration-400 hover:bg-emerald-500 hover:text-white"
-                    >
-                        Choose new photo
-                    </label>
-                    {selectedFileName && <p className="text-2xl text-stone-500 italic">Selected: {selectedFileName}</p>}
+                    {!selectedFileName && (
+                        <label
+                            htmlFor="photo"
+                            className="cursor-pointer border-b border-emerald-500 px-3 py-2 text-[1.8rem] text-emerald-500 transition-colors duration-400 hover:bg-emerald-500 hover:text-white"
+                        >
+                            Choose new photo
+                        </label>
+                    )}
+                    {selectedFileName && (
+                        <div className="flex items-center gap-2 pr-2">
+                            <p className="text-2xl text-stone-500 italic">Selected: {selectedFileName}</p>
+                            <button
+                                type="button"
+                                onClick={handleClearPhoto}
+                                className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-stone-100 text-stone-500 transition-colors hover:bg-stone-200 hover:text-red-500"
+                                title="Clear selection"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="mt-10 flex justify-end">
                     <Button

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import fs from "fs/promises"
 import prisma from "../utils/db.js"
 import { getAll, getOne, updateOne, deleteOne } from "./handlerFactory.js"
 import catchAsync from "../utils/catchAsync.js"
@@ -58,7 +59,20 @@ export const updateMe = catchAsync(async (req: Request, res: Response, next: Nex
 
     // 2) Filter out unwanted fields that are not allowed to be updated
     const filteredBody = filterObj(req.body, "name", "email")
-    if (req.file) filteredBody.photo = req.file.filename
+    if (req.file) {
+        filteredBody.photo = req.file.filename
+
+        // Delete the old photo if it's not the default one
+        const oldPhoto = req.user?.photo
+        if (oldPhoto && oldPhoto !== "default.jpg") {
+            const oldPhotoPath = `public/img/users/${oldPhoto}`
+            try {
+                await fs.unlink(oldPhotoPath)
+            } catch (err) {
+                console.error(`Error deleting old photo: ${oldPhotoPath}`, err)
+            }
+        }
+    }
 
     // 3) Update user document
     const updatedUser = await prisma.user.update({
