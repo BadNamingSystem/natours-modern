@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer"
+import { Resend } from "resend"
 import { convert } from "html-to-text"
+import AppError from "./appError.js"
 
 type User = {
     email: string
@@ -21,20 +23,32 @@ export default class Email {
         }>`
     }
 
-    private newTransport() {
+    // Send actual Email
+    async send(template: "welcome" | "passwordReset", subject: string) {
+        // 1. Generate HTML
+        const html = this.renderTemplate(template, subject)
+
+        // 2. Production: Use Resend API
         if (process.env.NODE_ENV === "production") {
-            return nodemailer.createTransport({
-                host: process.env.RESEND_HOST,
-                port: Number(process.env.RESEND_PORT),
-                secure: true,
-                auth: {
-                    user: "resend",
-                    pass: process.env.RESEND_API_KEY,
-                },
+            const resend = new Resend(process.env.RESEND_API_KEY)
+
+            const { error } = await resend.emails.send({
+                from: this.from,
+                to: this.to,
+                subject,
+                html,
             })
+
+            if (error) {
+                console.error("Resend Error:", error)
+                throw new AppError("Failed to send email via Resend", 500)
+            }
+
+            return
         }
-        // Mailtrap for dev server
-        return nodemailer.createTransport({
+
+        // 3. Development: Use Nodemailer (Mailtrap)
+        const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: Number(process.env.EMAIL_PORT),
             auth: {
@@ -42,6 +56,18 @@ export default class Email {
                 pass: process.env.EMAIL_PASSWORD,
             },
         })
+
+        const mailOptions = {
+            from: this.from,
+            to: this.to,
+            subject,
+            html,
+            text: convert(html, {
+                wordwrap: 130,
+            }),
+        }
+
+        await transporter.sendMail(mailOptions)
     }
 
     private renderTemplate(template: "welcome" | "passwordReset", subject: string) {
@@ -148,23 +174,6 @@ export default class Email {
         return baseLayout(templates[template])
     }
 
-    // Send actual Email
-    async send(template: "welcome" | "passwordReset", subject: string) {
-        // 1. Generate HTML
-        const html = this.renderTemplate(template, subject)
-        // 2. Define email options
-        const mailOptions = {
-            from: this.from,
-            to: this.to,
-            subject,
-            html,
-            text: convert(html, {
-                wordwrap: 130,
-            }),
-        }
-        // 3. Send email
-        await this.newTransport().sendMail(mailOptions)
-    }
     async sendWelcome() {
         await this.send("welcome", "Welcome to the Natours family!")
     }
