@@ -13,7 +13,10 @@ function ResetPasswordForm() {
         const passwordConfirm = formData.get("passwordConfirm") as string
 
         if (!password || !passwordConfirm) return
-        if (password !== passwordConfirm) toast.error("Passwords do not match!")
+        if (password !== passwordConfirm) {
+            toast.error("Passwords do not match!")
+            return
+        }
 
         resetPassword({ password, passwordConfirm })
     }

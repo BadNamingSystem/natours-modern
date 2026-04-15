@@ -16,11 +16,24 @@ export default class Email {
         this.to = user.email
         this.firstName = user.name.split(" ")[0]
         this.url = url
-        this.from = `Natours Reloaded <${process.env.EMAIL_FROM}>`
+        this.from = `Natours Reloaded <${
+            process.env.NODE_ENV === "production" ? "onboarding@resend.dev" : process.env.EMAIL_FROM
+        }>`
     }
 
     private newTransport() {
-        // Mailtrap for both dev and production
+        if (process.env.NODE_ENV === "production") {
+            return nodemailer.createTransport({
+                host: process.env.RESEND_HOST,
+                port: Number(process.env.RESEND_PORT),
+                secure: true,
+                auth: {
+                    user: "resend",
+                    pass: process.env.RESEND_API_KEY,
+                },
+            })
+        }
+        // Mailtrap for dev server
         return nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: Number(process.env.EMAIL_PORT),
