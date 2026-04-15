@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer"
-import { Resend } from "resend"
 import { convert } from "html-to-text"
 import AppError from "./appError.js"
 
@@ -18,36 +17,42 @@ export default class Email {
         this.to = user.email
         this.firstName = user.name.split(" ")[0]
         this.url = url
-        this.from = `Natours Reloaded <${
-            process.env.NODE_ENV === "production" ? "onboarding@resend.dev" : process.env.EMAIL_FROM
+        this.from = `Natours Admin <${
+            process.env.NODE_ENV === "production" ? process.env.EMAIL_FROM_PROD : process.env.EMAIL_FROM
         }>`
     }
 
     // Send actual Email
     async send(template: "welcome" | "passwordReset", subject: string) {
-        // 1. Generate HTML
         const html = this.renderTemplate(template, subject)
 
-        // 2. Production: Use Resend API
+        // 1. Production: Brevo
         if (process.env.NODE_ENV === "production") {
-            const resend = new Resend(process.env.RESEND_API_KEY)
-
-            const { error } = await resend.emails.send({
-                from: this.from,
-                to: this.to,
-                subject,
-                html,
+            const transporter = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST_PROD,
+                port: Number(process.env.EMAIL_PORT_PROD),
+                auth: {
+                    user: process.env.EMAIL_USERNAME_PROD,
+                    pass: process.env.EMAIL_PASSWORD_PROD,
+                },
             })
 
-            if (error) {
-                console.error("Resend Error:", error)
-                throw new AppError("Failed to send email via Resend", 500)
+            try {
+                await transporter.sendMail({
+                    from: this.from,
+                    to: this.to,
+                    subject,
+                    html,
+                    text: convert(html, { wordwrap: 130 }),
+                })
+                return
+            } catch (err) {
+                console.error("BREVO SEND ERROR:", err)
+                throw new AppError("There was an error sending the reset email. Please try again later.", 500)
             }
-
-            return
         }
 
-        // 3. Development: Use Nodemailer (Mailtrap)
+        // 2. Development: Mailtrap
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: Number(process.env.EMAIL_PORT),
@@ -57,21 +62,16 @@ export default class Email {
             },
         })
 
-        const mailOptions = {
+        await transporter.sendMail({
             from: this.from,
             to: this.to,
             subject,
             html,
-            text: convert(html, {
-                wordwrap: 130,
-            }),
-        }
-
-        await transporter.sendMail(mailOptions)
+            text: convert(html, { wordwrap: 130 }),
+        })
     }
 
     private renderTemplate(template: "welcome" | "passwordReset", subject: string) {
-        // Base Layout
         const baseLayout = (content: string) => `
             <!DOCTYPE html>
             <html lang="en">
@@ -80,94 +80,28 @@ export default class Email {
                     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                     <title>${subject}</title>
                     <style>
-                        /* GLOBAL STYLES */
-                        body {
-                          background-color: #f7f7f7;
-                          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                          font-size: 16px;
-                          line-height: 1.6;
-                          margin: 0;
-                          padding: 0;
-                          color: #444;
-                        }
-                        
-                        /* CONTAINER */
-                        .container {
-                          max-width: 600px;
-                          margin: 20px auto;
-                          background: #ffffff;
-                          border-radius: 12px;
-                          overflow: hidden;
-                          box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-                        }
-                        
-                        .wrapper { 
-                          padding: 40px; 
-                        }
-                        
-                        /* TYPOGRAPHY */
-                        h1 {
-                          color: #28b485;
-                          font-size: 28px;
-                          font-weight: 700;
-                          margin-bottom: 25px;
-                          letter-spacing: -0.5px;
-                        }
-                        
+                        body { background-color: #f7f7f7; font-family: sans-serif; font-size: 16px; line-height: 1.6; margin: 0; padding: 0; color: #444; }
+                        .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+                        .wrapper { padding: 40px; }
+                        h1 { color: #28b485; font-size: 28px; font-weight: 700; margin-bottom: 25px; }
                         p { margin-bottom: 20px; }
-                        
-                        /* BUTTONS */
-                        .btn {
-                          display: inline-block;
-                          background-color: #55c57a;
-                          color: #ffffff !important;
-                          padding: 14px 30px;
-                          text-decoration: none;
-                          font-weight: 600;
-                          border-radius: 100px;
-                          text-transform: uppercase;
-                          font-size: 14px;
-                          transition: all 0.3s;
-                        }
-                        
-                        .btn:hover {
-                          background-color: #28b485;
-                          transform: translateY(-2px);
-                          box-shadow: 0 5px 15px rgba(85, 197, 122, 0.3);
-                        }
-                        
-                        /* FOOTER */
-                        .footer {
-                          text-align: center;
-                          padding: 20px;
-                          font-size: 12px;
-                          color: #999;
-                        }
-
-                        .footer a { color: #55c57a; text-decoration: none; }
+                        .btn { display: inline-block; background-color: #55c57a; color: #ffffff !important; padding: 14px 30px; text-decoration: none; font-weight: 600; border-radius: 100px; text-transform: uppercase; font-size: 14px; }
                     </style>
                 </head>
                 <body>
-                    <div class="container">
-                        <div class="wrapper">
-                            ${content}
-                            <p>- Natours Reloaded</p>
-                        </div>
-                    </div>
+                    <div class="container"> <div class="wrapper"> ${content} <p>- Natours Admin</p> </div> </div>
                 </body>
             </html>
         `
-        // Specific Template Content
         const templates = {
             welcome: `
                 <h1>Welcome, ${this.firstName}!</h1>
-                <p>We're glad to have you. We're all a big family here, so make sure to upload your user photo!</p>
-                <a href="${this.url}" target="_blank" class="btn">Upload user photo</a>
+                <p>We're glad to have you! Make sure to upload your user photo!</p>
+                <a href="${this.url}" target="_blank" class="btn">Upload photo</a>
             `,
             passwordReset: `
                 <h1>Forgot your password?</h1>
-                <p>Submit a PATCH request with your new password and passwordConfirm to: ${this.url}.</p>
-                <p>(If you didn't forget your password, please ignore this email!)</p>
+                <p>Click the button below to reset your password. This link is valid for only 10 minutes.</p>
                 <a href="${this.url}" target="_blank" class="btn">Reset your password</a>
             `,
         }
@@ -177,6 +111,7 @@ export default class Email {
     async sendWelcome() {
         await this.send("welcome", "Welcome to the Natours family!")
     }
+
     async sendPasswordReset() {
         await this.send("passwordReset", "Your password reset token (valid for 10 min)")
     }
