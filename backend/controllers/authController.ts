@@ -7,7 +7,7 @@ import catchAsync from "../utils/catchAsync.js"
 import AppError from "../utils/appError.js"
 import { exclude } from "../utils/helpers.js"
 import crypto from "crypto"
-import sendEmail from "../utils/email.js"
+import Email from "../utils/email.js"
 
 interface ExtendedCookieOptions extends CookieOptions {
     partitioned?: boolean
@@ -62,6 +62,9 @@ export const signup = catchAsync(async (req: Request, res: Response, next: NextF
         },
     })
 
+    const url = `${req.protocol}://${req.get("host")}/me`
+    await new Email(newUser, url).sendWelcome()
+
     // 3) Send token to client
     createSendToken(newUser, 201, req, res)
 })
@@ -93,7 +96,7 @@ export const logout = catchAsync(async (req, res) => {
     res.status(200).json({ status: "success" })
 })
 
-// Update password. Only for logged in users checked by 'protect' middleware
+// Update password. Only for logged-in users checked by 'protect' middleware
 export const updatePassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { currentPassword, password, passwordConfirm } = req.body
 
@@ -139,7 +142,12 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response, nex
     // 1. Get user based on posted email
     const user = await prisma.user.findUnique({ where: { email } })
     if (!user || !user.active || !user.canModify) {
-        return next(new AppError("There is no active user registered with the provided email address or this account is protected.", 401))
+        return next(
+            new AppError(
+                "There is no active user registered with the provided email address or this account is protected.",
+                401,
+            ),
+        )
     }
 
     // 2. Generate reset token
@@ -151,19 +159,10 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response, nex
     // 3. Save reset token and expiration date to user account
     await prisma.user.update({ where: { id: user.id }, data: { passwordResetToken, passwordResetExpires } })
 
-    // 4. Send it to the user's email
-    const resetURL = `${req.protocol}://${req.get("host")}/api/v1/users/reset-password/${resetToken}`
-
-    const message = `
-    Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.
-    If you didn't forget your password, please ignore this email!`
-
     try {
-        await sendEmail({
-            email: user.email,
-            subject: "Your password reset token (valid for 10 minutes)",
-            message,
-        })
+        // 4. Send it to the user's email
+        const resetURL = `${req.protocol}://${req.get("host")}/reset-password/${resetToken}`
+        await new Email(user, resetURL).sendPasswordReset()
 
         res.status(200).json({ status: "success", message: "Token sent to email" })
     } catch (err) {

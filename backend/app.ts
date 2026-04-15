@@ -10,8 +10,12 @@ import rateLimit from "express-rate-limit"
 import helmet from "helmet"
 import cors from "cors"
 import hpp from "hpp"
+import compression from "compression"
 
 const app = express()
+
+// Compression
+app.use(compression())
 
 // Trust first proxy for rate limiting.
 app.set("trust proxy", 1)
