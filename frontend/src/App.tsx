@@ -11,6 +11,8 @@ const Tour = lazy(() => import("./pages/Tour.tsx"))
 const Login = lazy(() => import("./pages/Login.tsx"))
 const Signup = lazy(() => import("./pages/Signup.tsx"))
 const Account = lazy(() => import("./pages/Account.tsx"))
+const ForgotPassword = lazy(() => import("./features/user/ForgotPasswordForm.tsx"))
+const ResetPassword = lazy(() => import("./features/user/ResetPasswordForm.tsx"))
 const PageNotFound = lazy(() => import("./pages/PageNotFound.tsx"))
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
                         <Route path="/tours/:slug" element={<Tour />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
                         <Route
                             path="/me"
                             element={

@@ -65,3 +65,41 @@ export const logout = async () => {
 
     if (!response.ok) throw new Error("Logout failed")
 }
+
+export const requestPasswordReset = async (email: string) => {
+    const response = await fetch(`${API_URL}users/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+        credentials: "include",
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data.message || "Something went wrong")
+    }
+}
+
+type ResetPasswordArgs = {
+    token: string
+    password: string
+    passwordConfirm: string
+}
+
+export const resetPassword = async ({ token, password, passwordConfirm }: ResetPasswordArgs) => {
+    const response = await fetch(`${API_URL}users/reset-password/${token}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, passwordConfirm }),
+        credentials: "include",
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(data.message || "Something went wrong")
+    }
+
+    return data.data.user as User
+}

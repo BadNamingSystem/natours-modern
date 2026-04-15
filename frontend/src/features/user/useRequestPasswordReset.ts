@@ -1,21 +1,23 @@
 import { useMutation } from "@tanstack/react-query"
 import { requestPasswordReset as requestResetApi } from "../../services/apiAuth.ts"
 import toast from "react-hot-toast"
-import { useNavigate } from "react-router"
 
-export function useEmailForPassReset() {
-    const navigate = useNavigate()
-
-    const { mutate: requestPasswordReset, isPending } = useMutation({
+export function useRequestPasswordReset() {
+    const {
+        mutate: requestPasswordReset,
+        isPending,
+        isSuccess,
+        isError,
+    } = useMutation({
         mutationFn: requestResetApi,
         onSuccess: () => {
-            toast.success("Password updated successfully!")
+            toast.success("Check you email address for the reset link!")
         },
         onError: error => {
             console.error(error.message)
-            toast.error("Email address not found in database")
+            toast.error(error.message)
         },
     })
 
-    return { requestPasswordReset, isPending }
+    return { requestPasswordReset, isPending, isSuccess, isError }
 }

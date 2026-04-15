@@ -2,6 +2,7 @@ import GradientLabel from "../../components/GradientLabel.tsx"
 import Input from "../../components/Input.tsx"
 import Button from "../../components/Button.tsx"
 import { useLogin } from "./useLogin.ts"
+import { Link } from "react-router"
 
 function LoginForm() {
     const { login, isLoggingIn } = useLogin()
@@ -47,6 +48,9 @@ function LoginForm() {
                 >
                     Login
                 </Button>
+                <Link to="/forgot-password" className="mt-12 block text-2xl italic hover:text-green-500">
+                    Forgot your password?
+                </Link>
             </form>
         </div>
     )
