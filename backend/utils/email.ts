@@ -18,7 +18,7 @@ export default class Email {
         this.firstName = user.name.split(" ")[0]
         this.url = url
         this.from = `Natours Admin <${
-            process.env.NODE_ENV === "production" ? process.env.EMAIL_FROM_PROD : process.env.EMAIL_FROM
+            process.env.NODE_ENV === "production" ? process.env.GMAIL_USER : process.env.EMAIL_FROM
         }>`
     }
 
@@ -26,14 +26,13 @@ export default class Email {
     async send(template: "welcome" | "passwordReset", subject: string) {
         const html = this.renderTemplate(template, subject)
 
-        // 1. Production: Brevo
+        // 1. Production: Gmail
         if (process.env.NODE_ENV === "production") {
             const transporter = nodemailer.createTransport({
-                host: process.env.EMAIL_HOST_PROD,
-                port: Number(process.env.EMAIL_PORT_PROD),
+                service: "gmail",
                 auth: {
-                    user: process.env.EMAIL_USERNAME_PROD,
-                    pass: process.env.EMAIL_PASSWORD_PROD,
+                    user: process.env.GMAIL_USER,
+                    pass: process.env.GMAIL_APP_PASS,
                 },
             })
 
