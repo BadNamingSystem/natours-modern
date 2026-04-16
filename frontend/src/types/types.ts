@@ -27,6 +27,14 @@ export type Tour = {
     reviews: Review[]
 }
 
+export type TourLocation = {
+    id: string
+    day: number
+    type: string
+    coordinates: [number, number]
+    description: string
+}
+
 export type Guide = {
     id: string
     name: string
@@ -64,10 +72,14 @@ export type Review = {
     createdAt: string
 }
 
-export type TourLocation = {
+export type Booking = {
     id: string
-    day: number
-    type: string
-    coordinates: [number, number]
-    description: string
+    userId: string
+    tourId: string
+    price: number
+    user: {
+        name: string
+        email: string
+    }
+    tour: Tour
 }

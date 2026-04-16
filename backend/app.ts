@@ -4,8 +4,10 @@ import morgan from "morgan"
 import tourRouter from "./routes/tourRoutes.js"
 import userRouter from "./routes/userRoutes.js"
 import reviewRouter from "./routes/reviewRoutes.js"
+import bookingRouter from "./routes/bookingRoutes.js"
 import AppError from "./utils/appError.js"
 import globalErrorHandler from "./controllers/errorController.js"
+import { webhookCheckout } from "./controllers/bookingController.js"
 import rateLimit from "express-rate-limit"
 import helmet from "helmet"
 import cors from "cors"
@@ -44,10 +46,14 @@ app.use(
 
 app.use(express.static("public"))
 app.set("query parser", "extended")
-app.use(express.json({ limit: "10kb" }))
-app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(helmet())
+
+// Stripe Webhook - Must be before express.json()
+app.post("/webhook-checkout", express.raw({ type: "application/json" }), webhookCheckout)
+
+app.use(express.json({ limit: "10kb" }))
+app.use(express.urlencoded({ extended: true }))
 app.use(
     hpp({
         whitelist: [
@@ -86,6 +92,7 @@ app.use("/api", limiter)
 app.use("/api/v1/tours", tourRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/reviews", reviewRouter)
+app.use("/api/v1/bookings", bookingRouter)
 
 // Unhandled routes
 app.use((req, res, next) => {

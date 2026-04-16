@@ -11,6 +11,8 @@ const Tour = lazy(() => import("./pages/Tour.tsx"))
 const Login = lazy(() => import("./pages/Login.tsx"))
 const Signup = lazy(() => import("./pages/Signup.tsx"))
 const Account = lazy(() => import("./pages/Account.tsx"))
+const AccountSettings = lazy(() => import("./features/user/AccountSettings.tsx"))
+const MyBookings = lazy(() => import("./features/bookings/MyBookings.tsx"))
 const ForgotPassword = lazy(() => import("./features/user/ForgotPasswordForm.tsx"))
 const ResetPassword = lazy(() => import("./features/user/ResetPasswordForm.tsx"))
 const PageNotFound = lazy(() => import("./pages/PageNotFound.tsx"))
@@ -40,7 +42,10 @@ function App() {
                                     <Account />
                                 </ProtectedRoute>
                             }
-                        />
+                        >
+                            <Route index element={<AccountSettings />} />
+                            <Route path="bookings" element={<MyBookings />} />
+                        </Route>
                     </Route>
 
                     <Route path="*" element={<PageNotFound />} />

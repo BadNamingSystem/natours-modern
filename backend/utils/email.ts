@@ -88,7 +88,7 @@ export default class Email {
                     </style>
                 </head>
                 <body>
-                    <div class="container"> <div class="wrapper"> ${content} <p>- Natours Admin</p> </div> </div>
+                    <div class="container"> <div class="wrapper"> ${content} <p>- Natours Reloaded Admin</p> </div> </div>
                 </body>
             </html>
         `

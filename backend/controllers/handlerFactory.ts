@@ -3,7 +3,7 @@ import APIFeatures from "../utils/apiFeatures.js"
 import AppError from "../utils/appError.js"
 import { isValidId } from "../utils/helpers.js"
 
-export const getAll = <T>(delegate: any) =>
+export const getAll = <T>(delegate: any, popOptions?: any) =>
     catchAsync(async (req, res, next) => {
         // Empty filter object
         let filter = {}
@@ -14,6 +14,8 @@ export const getAll = <T>(delegate: any) =>
 
         // Merge the nested route filter manually
         features.query.where = { ...features.query.where, ...filter }
+
+        if (popOptions) features.query.include = popOptions
 
         const docs = (await delegate.findMany(features.query)) as T[]
 

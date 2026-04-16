@@ -30,8 +30,9 @@ model Tour {
   locations     Json?
 
   // Relations
-  guides  User[]   @relation("TourGuides")
-  reviews Review[]
+  guides   User[]    @relation("TourGuides")
+  reviews  Review[]
+  bookings Booking[]
 
   @@index([price, ratingsAverage(sort: Desc)])
   @@map("tours")
@@ -52,6 +53,7 @@ model User {
   canModify            Boolean   @default(true)
   reviews              Review[]
   tours                Tour[]    @relation("TourGuides")
+  bookings             Booking[]
 
   @@map("users")
 }
@@ -68,4 +70,18 @@ model Review {
 
   @@unique([userId, tourId])
   @@map("reviews")
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  userId    String
+  tourId    String
+  price     Int
+  paid      Boolean  @default(true)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tourId])
+  @@map("bookings")
 }

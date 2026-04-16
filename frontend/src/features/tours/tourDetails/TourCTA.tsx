@@ -2,8 +2,23 @@ import Logo from "../../../components/Logo.tsx"
 import Button from "../../../components/Button.tsx"
 import GradientLabel from "../../../components/GradientLabel.tsx"
 import { SERVER_URL } from "../../../config.ts"
+import { useUser } from "../../user/useUser.ts"
+import { useCheckout } from "../../bookings/useCheckout.ts"
+import { useNavigate } from "react-router"
 
-function TourCta({ duration, images }: { duration: number; images: string[] }) {
+function TourCta({ duration, images, tourId }: { duration: number; images: string[]; tourId: string }) {
+    const { isAuthenticated } = useUser()
+    const { checkout, isCheckingOut } = useCheckout()
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        if (isAuthenticated) {
+            checkout(tourId)
+        } else {
+            navigate("/login")
+        }
+    }
+
     return (
         <section className="mt-[-8vw] bg-gray-100 px-12 pt-160 pb-44">
             <div className="relative mx-auto flex max-w-420 items-center overflow-hidden rounded-4xl bg-white py-36 pr-20 pl-100 shadow-2xl">
@@ -38,8 +53,14 @@ function TourCta({ duration, images }: { duration: number; images: string[] }) {
                             round
                             ring
                             className="uppercase hover:-translate-y-1 hover:shadow-2xl"
+                            onClick={handleClick}
+                            disabled={isCheckingOut}
                         >
-                            Book tour now!
+                            {isCheckingOut
+                                ? "Connecting..."
+                                : isAuthenticated
+                                  ? "Book tour now!"
+                                  : "Log in to book tour"}
                         </Button>
                     </div>
                 </div>
