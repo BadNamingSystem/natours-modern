@@ -35,8 +35,8 @@ export const getCheckoutSession = catchAsync(async (req, res, next) => {
         ],
         mode: "payment",
         // FOR PRODUCTION: Redirect to frontend without sensitive query params
-        success_url: `${process.env.FRONTEND_URL || "http://localhost:5173"}/me/bookings?alert=booking`,
-        cancel_url: `${process.env.FRONTEND_URL || "http://localhost:5173"}/tours/${tour.slug || ""}`,
+        success_url: `${process.env.ALLOWED_ORIGIN || "http://localhost:5173"}/me/bookings?alert=booking`,
+        cancel_url: `${process.env.ALLOWED_ORIGIN || "http://localhost:5173"}/tours/${tour.slug || ""}`,
         customer_email: req.user!.email,
         client_reference_id: req.params.tourId as string,
     })
