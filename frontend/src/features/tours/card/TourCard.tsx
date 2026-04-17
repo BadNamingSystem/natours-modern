@@ -23,7 +23,7 @@ function TourCard({ tour }: { tour: Tour }) {
     const stops = locations?.length || 0
 
     return (
-        <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 text-base leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300">
+        <div className="flex w-full flex-col overflow-hidden rounded-md bg-gray-50 text-sm leading-[1.6] font-light text-neutral-500 shadow-lg transition-all duration-300 sm:text-base">
             <CardHeader imageCover={imageCover} name={name} />
             <CardDetails
                 startingFrom={description}

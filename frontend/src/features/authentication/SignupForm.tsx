@@ -22,7 +22,7 @@ function SignupForm() {
     }
 
     return (
-        <div className="w-200 max-w-220 rounded-md bg-white px-28 py-20">
+        <div className="w-full max-w-208 rounded-md bg-white px-6 py-10 sm:px-10 sm:py-12 md:w-200 md:max-w-220 md:px-28 md:py-20">
             <GradientLabel>Create your account</GradientLabel>
             <form action={handleSignup}>
                 <Input
@@ -66,7 +66,7 @@ function SignupForm() {
                 <Button
                     size="large"
                     color="emerald"
-                    className="px-12 py-8 text-3xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl"
+                    className="w-full px-8 py-5 text-2xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl sm:w-auto sm:px-12 sm:py-8 sm:text-3xl"
                     round
                     ring
                     disabled={isSigningUp}

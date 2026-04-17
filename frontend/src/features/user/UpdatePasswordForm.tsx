@@ -37,7 +37,7 @@ function UpdatePasswordForm() {
     }
 
     return (
-        <div className="mx-auto max-w-272 px-32">
+        <div className="mx-auto max-w-272 px-0 sm:px-8 md:px-16 lg:px-32">
             <GradientLabel>Password change</GradientLabel>
             <form action={handleUpdatePassword} ref={formRef}>
                 <Input
@@ -73,7 +73,7 @@ function UpdatePasswordForm() {
                         size="large"
                         color="emerald"
                         round
-                        className="px-12 py-5 text-2xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl"
+                        className="w-full px-8 py-5 text-2xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl sm:w-auto sm:px-12"
                         disabled={isUpdatingPassword}
                     >
                         Update password

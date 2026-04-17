@@ -7,7 +7,7 @@ function Home() {
     }, [])
 
     return (
-        <main className="flex items-center justify-center px-32 py-24">
+        <main className="flex justify-center px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-20">
             <CardContainer />
         </main>
     )

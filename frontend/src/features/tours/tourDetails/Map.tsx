@@ -15,10 +15,11 @@ function Map({ locations }: { locations: TourLocation[] }) {
     const lineCoordinates: [number, number][] = locations.map(loc => [loc.coordinates[1], loc.coordinates[0]])
 
     return (
-        <section className="relative mt-[-8vw] h-260 [clip-path:polygon(0_8vw,100%_0,100%_calc(100%-8vw),0_100%)]">
+        <section className="relative mt-0 h-80 bg-gray-50 md:mt-[-8vw] md:h-260 md:bg-transparent [clip-path:polygon(0_8vw,100%_0,100%_calc(100%-8vw),0_100%)]">
             <MapContainer
                 center={center}
                 doubleClickZoom={false}
+                zoomControl={false}
                 zoom={8}
                 scrollWheelZoom={false}
                 className="h-full w-full"

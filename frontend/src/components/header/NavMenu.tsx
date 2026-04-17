@@ -10,7 +10,7 @@ function NavMenu() {
     const { logout, isPending } = useLogout()
 
     return (
-        <nav className="mr-8 uppercase md:mr-16">
+        <nav className="mr-4 uppercase md:mr-16">
             <ul className="flex list-none flex-row items-center gap-6 text-2xl font-light text-gray-100 sm:gap-12">
                 {isAuthenticated ? (
                     <>
@@ -23,7 +23,7 @@ function NavMenu() {
                             round
                             disabled={isPending}
                             onClick={() => logout()}
-                            className="text-2xl font-medium uppercase"
+                            className="px-8 py-6 text-xl font-semibold uppercase sm:px-10 sm:py-8 sm:text-2xl"
                         >
                             Logout
                         </Button>

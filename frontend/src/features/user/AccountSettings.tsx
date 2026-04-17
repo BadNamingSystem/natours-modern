@@ -4,7 +4,7 @@ import Spacer from "../../components/Spacer.tsx"
 
 function AccountSettings() {
     return (
-        <div className="px-12">
+        <div className="px-4 sm:px-8 lg:px-12">
             <UpdateUserDataForm />
             <Spacer padding={26} />
             <UpdatePasswordForm />

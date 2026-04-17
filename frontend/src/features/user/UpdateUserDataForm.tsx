@@ -36,16 +36,16 @@ function UpdateUserDataForm() {
     }
 
     return (
-        <div className="mx-auto max-w-272 px-32">
+        <div className="mx-auto max-w-272 px-0 sm:px-8 md:px-16 lg:px-32">
             <GradientLabel>Your account settings</GradientLabel>
             <form action={handleUpdateUserData}>
                 <Input type="text" defaultValue={fullName} id="name" name="name" label="Name" />
                 <Input type="text" defaultValue={email} id="email" name="email" label="Email address" />
-                <div className="mb-12 flex items-center gap-8 py-4">
+                <div className="mb-10 flex flex-col items-start gap-4 py-2 sm:mb-12 sm:flex-row sm:items-center sm:gap-8 sm:py-4">
                     <Avatar
                         src={`${SERVER_URL}img/users/${photo}`}
                         alt={`photo of ${fullName}`}
-                        className="h-40 w-40 shrink-0"
+                        className="h-24 w-24 shrink-0 sm:h-40 sm:w-40"
                     />
                     <input
                         ref={fileInputRef}
@@ -59,14 +59,14 @@ function UpdateUserDataForm() {
                     {!selectedFileName && (
                         <label
                             htmlFor="photo"
-                            className="cursor-pointer border-b border-emerald-500 px-3 py-2 text-[1.8rem] text-emerald-500 transition-colors duration-400 hover:bg-emerald-500 hover:text-white"
+                            className="cursor-pointer border-b border-emerald-500 px-3 py-2 text-[1.6rem] text-emerald-500 transition-colors duration-400 hover:bg-emerald-500 hover:text-white sm:text-[1.8rem]"
                         >
                             Choose new photo
                         </label>
                     )}
                     {selectedFileName && (
                         <div className="flex items-center gap-2 pr-2">
-                            <p className="text-2xl text-stone-500 italic">Selected: {selectedFileName}</p>
+                            <p className="text-[1.6rem] text-stone-500 italic sm:text-2xl">Selected: {selectedFileName}</p>
                             <button
                                 type="button"
                                 onClick={handleClearPhoto}
@@ -83,7 +83,7 @@ function UpdateUserDataForm() {
                         size="large"
                         color="emerald"
                         round
-                        className="px-12 py-5 text-2xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl"
+                        className="w-full px-8 py-5 text-2xl font-normal text-white uppercase hover:-translate-y-1 hover:shadow-2xl sm:w-auto sm:px-12"
                         disabled={isUpdatingMe}
                     >
                         Save settings
