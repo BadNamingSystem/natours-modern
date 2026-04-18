@@ -33,6 +33,7 @@ function UpdateUserDataForm() {
         }
 
         updateMe({ name, email, photo })
+        handleClearPhoto()
     }
 
     return (
@@ -66,7 +67,9 @@ function UpdateUserDataForm() {
                     )}
                     {selectedFileName && (
                         <div className="flex items-center gap-2 pr-2">
-                            <p className="text-[1.6rem] text-stone-500 italic sm:text-2xl">Selected: {selectedFileName}</p>
+                            <p className="text-[1.6rem] text-stone-500 italic sm:text-2xl">
+                                Selected: {selectedFileName}
+                            </p>
                             <button
                                 type="button"
                                 onClick={handleClearPhoto}
