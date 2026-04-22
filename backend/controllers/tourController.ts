@@ -28,7 +28,7 @@ export const uploadTourImages = upload.fields([
     { name: "images", maxCount: 3 },
 ])
 
-export const resizeTourImages = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const resizeTourImages = catchAsync(async (req, res, next) => {
     if (!req.files || Array.isArray(req.files) || !req.files.imageCover || !req.files.images) return next()
 
     const files = req.files

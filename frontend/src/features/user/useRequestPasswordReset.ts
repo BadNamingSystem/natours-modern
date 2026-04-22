@@ -3,12 +3,8 @@ import { requestPasswordReset as requestResetApi } from "../../services/apiAuth.
 import toast from "react-hot-toast"
 
 export function useRequestPasswordReset() {
-    const {
-        mutate: requestPasswordReset,
-        isPending,
-        isSuccess,
-        isError,
-    } = useMutation({
+    // prettier-ignore
+    const { mutate: requestPasswordReset, isPending, isSuccess, isError, } = useMutation<void, Error, string>({
         mutationFn: requestResetApi,
         onSuccess: () => {
             toast.success("Check you email address for the reset link!")

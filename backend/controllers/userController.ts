@@ -26,7 +26,7 @@ const upload = multer({
 
 export const uploadUserPhoto = upload.single("photo")
 
-export const resizeUserPhoto = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const resizeUserPhoto = catchAsync(async (req, res, next) => {
     if (!req.file) return next()
 
     req.file.filename = `user-${req.user!.id}-${Date.now()}.jpeg`
@@ -47,7 +47,7 @@ export const getMe = (req: Request, res: Response, next: NextFunction) => {
 }
 
 // Update currently logged in user's name and email (not password)
-export const updateMe = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const updateMe = catchAsync(async (req, res, next) => {
     // 1) Error if user POSTs password data
     if (req.body.password || req.body.passwordConfirm) {
         return next(new AppError("This route is not for password updates. Please use /update-password.", 400))
@@ -87,7 +87,7 @@ export const updateMe = catchAsync(async (req: Request, res: Response, next: Nex
 })
 
 // Soft delete. User is not deleted from the database, but marked as inactive.
-export const deleteMe = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const deleteMe = catchAsync(async (req, res, next) => {
     await prisma.user.update({
         where: { id: req.user!.id },
         data: { active: false },

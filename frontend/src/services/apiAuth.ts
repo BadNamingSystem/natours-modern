@@ -1,7 +1,12 @@
 import { API_URL } from "../config.ts"
 import type { User } from "../types/types.ts"
 
-export const login = async ({ email, password }: { email: string; password: string }) => {
+export type LoginArgs = {
+    email: string
+    password: string
+}
+
+export const login = async ({ email, password }: LoginArgs) => {
     const response = await fetch(`${API_URL}users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -18,17 +23,14 @@ export const login = async ({ email, password }: { email: string; password: stri
     return data.data.user as User
 }
 
-export const signup = async ({
-    name,
-    email,
-    password,
-    passwordConfirm,
-}: {
+export type signupArgs = {
     name: string
     email: string
     password: string
     passwordConfirm: string
-}) => {
+}
+
+export const signup = async ({ name, email, password, passwordConfirm }: signupArgs) => {
     const response = await fetch(`${API_URL}users/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

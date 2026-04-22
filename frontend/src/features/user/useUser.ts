@@ -9,6 +9,7 @@ export function useUser() {
     return {
         isPending,
         user,
+        id: user?.id,
         fullName: user?.name,
         name: user?.name.split(" ")[0],
         email: user?.email,

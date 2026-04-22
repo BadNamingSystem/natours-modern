@@ -47,7 +47,7 @@ const createSendToken = (user: User, statusCode: number, req: Request, res: Resp
     })
 }
 
-export const signup = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const signup = catchAsync(async (req, res, next) => {
     const { name, email, password } = req.body
 
     // 1) Hash password
@@ -69,7 +69,7 @@ export const signup = catchAsync(async (req: Request, res: Response, next: NextF
     createSendToken(newUser, 201, req, res)
 })
 
-export const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body
 
     // 1) Check if email and password exist
@@ -97,7 +97,7 @@ export const logout = catchAsync(async (req, res) => {
 })
 
 // Update password. Only for logged-in users checked by 'protect' middleware
-export const updatePassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const updatePassword = catchAsync(async (req, res, next) => {
     const { currentPassword, password, passwordConfirm } = req.body
 
     if (!currentPassword || !password || !passwordConfirm) {
@@ -132,7 +132,7 @@ export const updatePassword = catchAsync(async (req: Request, res: Response, nex
     createSendToken(updatedUser, 200, req, res)
 })
 
-export const forgotPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const forgotPassword = catchAsync(async (req, res, next) => {
     const { email } = req.body
 
     if (!email) {
@@ -176,7 +176,7 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response, nex
     }
 })
 
-export const resetPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const resetPassword = catchAsync(async (req, res, next) => {
     const { token } = req.params
     const { password, passwordConfirm } = req.body
 

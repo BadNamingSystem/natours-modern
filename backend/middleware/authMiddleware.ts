@@ -5,7 +5,7 @@ import catchAsync from "../utils/catchAsync.js"
 import AppError from "../utils/appError.js"
 import prisma from "../utils/db.js"
 
-export const protect = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const protect = catchAsync(async (req, res, next) => {
     // 1) Getting token and check if it's there
     let token: string | undefined
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
