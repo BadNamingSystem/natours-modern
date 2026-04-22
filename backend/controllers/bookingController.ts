@@ -4,6 +4,7 @@ import { Booking } from "@prisma/client"
 import { createOne, getOne, getAll, updateOne, deleteOne } from "./handlerFactory.js"
 import catchAsync from "../utils/catchAsync.js"
 import AppError from "../utils/appError.js"
+import { isValidId } from "../utils/helpers.js"
 
 export const getCheckoutSession = catchAsync(async (req, res, next) => {
     // 1. Get the currently booked tour
@@ -90,24 +91,58 @@ export const getMyBookings = catchAsync(async (req, res, next) => {
         where: { userId: req.user!.id },
         include: {
             tour: {
-                select: {
-                    name: true,
-                    imageCover: true,
-                    slug: true,
-                    duration: true,
-                    maxGroupSize: true,
-                    difficulty: true,
-                    price: true,
+                include: {
+                    _count: {
+                        select: {
+                            likes: true,
+                        },
+                    },
                 },
             },
         },
     })
 
+    const bookingsWithLikeCount = bookings.map(booking => {
+        const likesCount = booking.tour._count.likes
+        const { _count: _, ...tour } = booking.tour
+
+        return {
+            ...booking,
+            tour: {
+                ...tour,
+                likesCount,
+            },
+        }
+    })
+
     res.status(200).json({
         status: "success",
-        results: bookings.length,
-        data: bookings,
+        results: bookingsWithLikeCount.length,
+        data: bookingsWithLikeCount,
     })
+})
+
+export const checkBookingOwnership = catchAsync(async (req, res, next) => {
+    const { id } = req.params as { id: string }
+
+    if (!isValidId(id)) {
+        return next(new AppError(`ID: ${id} has invalid format.`, 400))
+    }
+
+    const booking = await prisma.booking.findUnique({
+        where: { id },
+        select: { userId: true },
+    })
+
+    if (!booking) {
+        return next(new AppError(`No booking found with ID ${id}`, 404))
+    }
+
+    if (req.user!.role !== "admin" && booking.userId !== req.user!.id) {
+        return next(new AppError("You do not have permission to perform this action", 403))
+    }
+
+    next()
 })
 
 const bookingPopOptions = {

@@ -25,6 +25,7 @@ export type Tour = {
     locations: TourLocation[]
     guides: Guide[]
     reviews: Review[]
+    likesCount?: number
 }
 
 export type TourLocation = {

@@ -66,6 +66,11 @@ export const resizeTourImages = catchAsync(async (req, res, next) => {
 
 export const getAllTours = getAll<Tour>(prisma.tour)
 export const getTour = getOne<Tour>(prisma.tour, {
+    _count: {
+        select: {
+            likes: true,
+        },
+    },
     guides: {
         select: {
             id: true,
@@ -93,6 +98,11 @@ export const getTourBySlug = catchAsync(async (req, res, next) => {
     const tour = await prisma.tour.findUnique({
         where: { slug: req.params.slug as string },
         include: {
+            _count: {
+                select: {
+                    likes: true,
+                },
+            },
             reviews: {
                 include: {
                     user: {
@@ -109,7 +119,15 @@ export const getTourBySlug = catchAsync(async (req, res, next) => {
 
     if (!tour) return next(new AppError("No tour found with that name", 404))
 
-    res.status(200).json({ status: "success", data: tour })
+    const likes = tour._count.likes
+    const { _count: _, ...tourData } = tour
+
+    const newTourData = {
+        ...tourData,
+        likesCount: likes,
+    }
+
+    res.status(200).json({ status: "success", data: newTourData })
 })
 
 export const setTourSlug = (req: Request, res: Response, next: NextFunction) => {

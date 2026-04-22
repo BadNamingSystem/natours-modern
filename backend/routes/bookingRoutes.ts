@@ -8,6 +8,7 @@ import {
     deleteBooking,
     getCheckoutSession,
     getMyBookings,
+    checkBookingOwnership,
 } from "../controllers/bookingController.js"
 import { validate } from "../middleware/validate.js"
 import { createBookingSchema, updateBookingSchema } from "../schemas/bookingSchema.js"
@@ -25,6 +26,6 @@ router
     .route("/:id")
     .get(restrictTo("admin"), getBooking)
     .patch(restrictTo("admin"), validate(updateBookingSchema), updateBooking)
-    .delete(restrictTo("admin"), deleteBooking)
+    .delete(restrictTo("user", "admin"), checkBookingOwnership, deleteBooking)
 
 export default router

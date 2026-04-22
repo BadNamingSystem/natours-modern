@@ -31,3 +31,15 @@ export const getMyBookings = async () => {
 
     return data.data as Booking[]
 }
+
+export const deleteBooking = async (bookingId: string) => {
+    const response = await fetch(`${API_URL}bookings/${bookingId}`, {
+        method: "DELETE",
+        credentials: "include",
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.message || "Failed to delete booking")
+    }
+}

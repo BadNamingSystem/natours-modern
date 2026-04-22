@@ -33,6 +33,7 @@ model Tour {
   guides   User[]    @relation("TourGuides")
   reviews  Review[]
   bookings Booking[]
+  likes    Like[]
 
   @@index([price, ratingsAverage(sort: Desc)])
   @@map("tours")
@@ -54,8 +55,22 @@ model User {
   reviews              Review[]
   tours                Tour[]    @relation("TourGuides")
   bookings             Booking[]
+  likes                Like[]
 
   @@map("users")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  tourId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tour Tour @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tourId])
+  @@map("likes")
 }
 
 model Review {

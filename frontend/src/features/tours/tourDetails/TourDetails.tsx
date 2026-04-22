@@ -22,6 +22,7 @@ function TourDetails() {
     if (error || !tour) return <PageNotFound />
 
     const {
+        id,
         name,
         description: tourDescription,
         imageCover,
@@ -36,13 +37,21 @@ function TourDetails() {
         maxGroupSize,
         guides,
         reviews,
+        likesCount,
     } = tour
 
     const startDate = new Date(startDates[0]).toLocaleString("en-us", { month: "long", year: "numeric" })
 
     return (
         <>
-            <TourHero name={name} imageCover={imageCover} duration={duration} startingFrom={description} />
+            <TourHero
+                name={name}
+                imageCover={imageCover}
+                duration={duration}
+                startingFrom={description}
+                tourId={id}
+                likesCount={likesCount}
+            />
             <TourDescription
                 name={name}
                 tourDescription={tourDescription}
@@ -56,7 +65,7 @@ function TourDetails() {
             <TourPhotos images={images} />
             <Map locations={locations} />
             <TourReviews reviews={reviews} />
-            <TourCta duration={duration} images={images} tourId={tour.id} />
+            <TourCta duration={duration} images={images} tourId={id} />
         </>
     )
 }

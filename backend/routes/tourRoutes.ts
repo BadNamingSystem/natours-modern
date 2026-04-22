@@ -16,10 +16,12 @@ import { validate } from "../middleware/validate.js"
 import { tourSchema, tourUpdateSchema } from "../schemas/tourSchema.js"
 import { protect, restrictTo } from "../middleware/authMiddleware.js"
 import reviewRouter from "./reviewRoutes.js"
+import likeRouter from "./likeRoutes.js"
 
 const router = express.Router()
 
 // NESTED ROUTES
+router.use("/:tourId/likes", likeRouter)
 router.use("/:tourId/reviews", reviewRouter)
 
 // TOUR ALIAS ROUTE (MIDDLEWARE)
@@ -41,7 +43,15 @@ router.route("/name/:slug").get(getTourBySlug)
 router
     .route("/:id")
     .get(getTour)
-    .patch(protect, restrictTo("admin", "lead-guide"), uploadTourImages, resizeTourImages, setTourSlug, validate(tourUpdateSchema), updateTour)
+    .patch(
+        protect,
+        restrictTo("admin", "lead-guide"),
+        uploadTourImages,
+        resizeTourImages,
+        setTourSlug,
+        validate(tourUpdateSchema),
+        updateTour,
+    )
     .delete(protect, restrictTo("admin"), deleteTour)
 
 export default router
