@@ -1,11 +1,10 @@
 import type { ComponentPropsWithoutRef } from "react"
 
-type Props = {
+type InputProps = {
     label?: string
-    error?: string
 } & ComponentPropsWithoutRef<"input">
 
-const Input = ({ label, id, ...props }: Props) => {
+function Input({ label, id, ...props }: InputProps) {
     return (
         <div className="mb-10">
             {label && (

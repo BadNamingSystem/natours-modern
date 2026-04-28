@@ -21,11 +21,11 @@ router.get("/checkout-session/:tourId", getCheckoutSession)
 router.get("/my-bookings", getMyBookings)
 
 router.get("/", restrictTo("admin"), getAllBookings)
-router.post("/", restrictTo("user"), validate(createBookingSchema), createBooking)
+router.post("/", validate(createBookingSchema), createBooking)
 router
     .route("/:id")
     .get(restrictTo("admin"), getBooking)
-    .patch(restrictTo("admin"), validate(updateBookingSchema), updateBooking)
-    .delete(restrictTo("user", "admin"), checkBookingOwnership, deleteBooking)
+    .patch(checkBookingOwnership, validate(updateBookingSchema), updateBooking)
+    .delete(checkBookingOwnership, deleteBooking)
 
 export default router

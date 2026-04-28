@@ -5,7 +5,8 @@ const userBaseSchema = z.object({
     name: z
         .string({ message: "Please provide your name" })
         .trim()
-        .min(2, "Name is too short")
+        .min(2, "Name must be at least 2 characters long")
+        .max(32, "Name must be at most 32 characters long")
         .refine(val => validateName(val), {
             message: "A name must only contain letters and spaces. International characters are supported.",
         }),
@@ -26,7 +27,8 @@ export const signupSchema = z.object({
         .extend({
             password: z
                 .string({ message: "Please provide a password" })
-                .min(8, "Password must be at least 8 characters long"),
+                .min(8, "Password must be at least 8 characters long")
+                .max(32, "Password must be at most 32 characters long"),
             passwordConfirm: z.string({ message: "Please confirm your password" }),
         })
         .refine(data => data.password === data.passwordConfirm, {

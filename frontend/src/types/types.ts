@@ -70,6 +70,9 @@ export type Review = {
         name: string
         photo: string
     }
+    tour: {
+        name: string
+    }
     createdAt: string
 }
 

@@ -2,11 +2,17 @@ import Logo from "../../../components/Logo.tsx"
 import Button from "../../../components/Button.tsx"
 import GradientLabel from "../../../components/GradientLabel.tsx"
 import { SERVER_URL } from "../../../config.ts"
-import { useUser } from "../../user/useUser.ts"
 import { useCheckout } from "../../bookings/useCheckout.ts"
 import { useNavigate } from "react-router"
+import { useUser } from "../../user/useUser.ts"
 
-function TourCta({ duration, images, tourId }: { duration: number; images: string[]; tourId: string }) {
+type Props = {
+    duration: number
+    images: string[]
+    tourId: string
+}
+
+function TourCta({ duration, images, tourId }: Props) {
     const { isAuthenticated } = useUser()
     const { checkout, isCheckingOut } = useCheckout()
     const navigate = useNavigate()
@@ -46,7 +52,7 @@ function TourCta({ duration, images, tourId }: { duration: number; images: strin
                             {duration} days. 1 adventure. Infinite memories. Make it yours today!
                         </p>
                     </div>
-                    <div className="pl-12 max-lg:pl-0 max-lg:flex max-lg:justify-center">
+                    <div className="pl-12 max-lg:flex max-lg:justify-center max-lg:pl-0">
                         <Button
                             size="cta"
                             color="emerald"

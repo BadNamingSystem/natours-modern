@@ -7,7 +7,7 @@ export const useCheckout = () => {
         mutationFn: getCheckoutSession,
         onSuccess: session => {
             if (session?.url) {
-                // Stripe's modern approach: redirect directly to the session URL
+                // Redirect directly to the session URL
                 window.location.href = session.url
             } else {
                 toast.error("Invalid session received from server.")

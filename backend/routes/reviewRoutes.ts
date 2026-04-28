@@ -2,6 +2,7 @@ import express from "express"
 import {
     getAllReviews,
     getReview,
+    getMyReviews,
     createReview,
     updateReview,
     deleteReview,
@@ -16,12 +17,13 @@ const router = express.Router({ mergeParams: true })
 
 router.use(protect)
 
+router.route("/my-reviews").get(getMyReviews)
 router.route("/").get(getAllReviews).post(restrictTo("user"), validate(createReviewSchema), createReview)
 
 router
     .route("/:id")
     .get(getReview)
-    .patch(restrictTo("user", "admin"), checkReviewOwnership, validate(updateReviewSchema), updateReview)
-    .delete(restrictTo("user", "admin"), checkReviewOwnership, deleteReview)
+    .patch(checkReviewOwnership, validate(updateReviewSchema), updateReview)
+    .delete(checkReviewOwnership, deleteReview)
 
 export default router

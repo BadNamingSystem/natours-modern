@@ -51,6 +51,7 @@ function TourDetails() {
                 startingFrom={description}
                 tourId={id}
                 likesCount={likesCount}
+                reviews={reviews}
             />
             <TourDescription
                 name={name}

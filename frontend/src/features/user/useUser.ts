@@ -4,6 +4,7 @@ export function useUser() {
     const { data: user, isPending } = useQuery({
         queryKey: ["user"],
         queryFn: getCurrentUser,
+        retry: false,
     })
 
     return {
@@ -11,7 +12,7 @@ export function useUser() {
         user,
         id: user?.id,
         fullName: user?.name,
-        name: user?.name.split(" ")[0],
+        name: user?.name?.split(" ")[0],
         email: user?.email,
         photo: user?.photo,
         role: user?.role,

@@ -13,6 +13,7 @@ const Signup = lazy(() => import("./pages/Signup.tsx"))
 const Account = lazy(() => import("./pages/Account.tsx"))
 const AccountSettings = lazy(() => import("./features/user/AccountSettings.tsx"))
 const MyBookings = lazy(() => import("./features/bookings/MyBookings.tsx"))
+const MyReviews = lazy(() => import("./features/reviews/MyReviews.tsx"))
 const ForgotPassword = lazy(() => import("./features/user/ForgotPasswordForm.tsx"))
 const ResetPassword = lazy(() => import("./features/user/ResetPasswordForm.tsx"))
 const PageNotFound = lazy(() => import("./pages/PageNotFound.tsx"))
@@ -45,6 +46,7 @@ function App() {
                         >
                             <Route index element={<AccountSettings />} />
                             <Route path="bookings" element={<MyBookings />} />
+                            <Route path="reviews" element={<MyReviews />} />
                         </Route>
                     </Route>
 

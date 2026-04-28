@@ -8,6 +8,31 @@ import { isValidId } from "../utils/helpers.js"
 export const getAllReviews = getAll<Review>(prisma.review)
 export const getReview = getOne<Review>(prisma.review)
 
+export const getMyReviews = catchAsync(async (req, res, next) => {
+    const userId = req.user!.id
+
+    const reviews = await prisma.review.findMany({
+        where: { userId },
+        include: {
+            tour: {
+                select: {
+                    name: true,
+                },
+            },
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    photo: true,
+                },
+            },
+        },
+        orderBy: { createdAt: "desc" },
+    })
+
+    res.status(200).json({ status: "success", results: reviews.length, data: reviews })
+})
+
 // Recalculates and persists ratingsQuantity and ratingsAverage for a tour
 const calcAverageRatings = async (tourId: string) => {
     const result = await prisma.review.aggregate({
