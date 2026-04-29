@@ -14,7 +14,7 @@ type Props = {
     onCloseModal?: () => void
 }
 
-function CreateUpdateReview({ mode = "create", tourId, reviewId, defaultValues, onCloseModal }: Props) {
+function CreateEditReview({ mode = "create", tourId, reviewId, defaultValues, onCloseModal }: Props) {
     const { createReview, isCreatingReview } = useCreateReview()
     const { updateReview, isUpdatingReview } = useUpdateReview()
     const isPending = isCreatingReview || isUpdatingReview
@@ -45,9 +45,9 @@ function CreateUpdateReview({ mode = "create", tourId, reviewId, defaultValues, 
     }
 
     return (
-        <div className="w-full max-w-2xl rounded-md bg-white px-6 py-8 shadow-xl sm:px-8 sm:py-10">
+        <div className="w-full rounded-md bg-white px-4 py-6 sm:px-6 sm:py-8">
             <GradientLabel>{mode === "update" ? "Update Review" : "New Review"}</GradientLabel>
-            <form action={handleCreateUpdateReview} className="mt-6 space-y-6">
+            <form action={handleCreateUpdateReview} className="mt-4 space-y-5 sm:mt-6">
                 <Input
                     type="number"
                     id="rating"
@@ -55,6 +55,7 @@ function CreateUpdateReview({ mode = "create", tourId, reviewId, defaultValues, 
                     label="Rating"
                     min={1}
                     max={5}
+                    placeholder="1 - 5"
                     required
                     defaultValue={defaultValues?.rating}
                 />
@@ -71,7 +72,7 @@ function CreateUpdateReview({ mode = "create", tourId, reviewId, defaultValues, 
                 <Button
                     size="medium"
                     color="emerald"
-                    className="w-full px-6 py-4 text-lg font-normal text-white uppercase hover:-translate-y-1 hover:shadow-xl sm:w-auto"
+                    className="w-auto p-8 text-lg font-normal text-white uppercase hover:-translate-y-1 hover:shadow-xl"
                     round
                     ring
                     disabled={isPending}
@@ -83,4 +84,4 @@ function CreateUpdateReview({ mode = "create", tourId, reviewId, defaultValues, 
     )
 }
 
-export default CreateUpdateReview
+export default CreateEditReview

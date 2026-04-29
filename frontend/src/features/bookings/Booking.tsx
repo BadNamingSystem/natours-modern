@@ -57,7 +57,7 @@ function Booking({ booking }: { booking: BookingType }) {
                             <Modal.Open opens="delete-booking">
                                 <DeleteButton disabled={isDeletingBooking} ariaLabel="Delete booking" />
                             </Modal.Open>
-                            <Modal.Window name="delete-booking">
+                            <Modal.Window name="delete-booking" className="max-w-lg">
                                 <ConfirmDelete
                                     resourceName="booking"
                                     disabled={isDeletingBooking}

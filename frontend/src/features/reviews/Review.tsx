@@ -22,7 +22,7 @@ function Review({ review }: { review: ReviewType }) {
                     <Modal.Open opens="delete-review">
                         <DeleteButton disabled={isDeletingReview} ariaLabel="Delete review" />
                     </Modal.Open>
-                    <Modal.Window name="delete-review">
+                    <Modal.Window name="delete-review" className="max-w-lg">
                         <ConfirmDelete
                             resourceName="review"
                             disabled={isDeletingReview}

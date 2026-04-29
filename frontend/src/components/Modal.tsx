@@ -12,6 +12,7 @@ import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 import { useOutsideClick } from "../hooks/useOutsideClick.ts"
 import { useKey } from "../hooks/useKey.ts"
+import { cn } from "../utils/cn.ts"
 
 type ModalContextProps = {
     openName: string
@@ -40,10 +41,10 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
     return cloneElement(children as ReactElement<OpenChildProps>, { onClick: () => open(opensWindowName) })
 }
 
-type WindowProps = { children: ReactElement; name: string }
+type WindowProps = { children: ReactElement; name: string; className?: string }
 type WindowChildProps = { onCloseModal?: () => void }
 
-function Window({ children, name }: WindowProps) {
+function Window({ children, name, className }: WindowProps) {
     const { openName, close } = useModalContext()
     const ref = useOutsideClick<HTMLDivElement>(close)
     useKey("Escape", close)
@@ -52,14 +53,17 @@ function Window({ children, name }: WindowProps) {
     if (name !== openName) return null
 
     return createPortal(
-        <div className="fixed inset-0 z-1000 h-screen w-full bg-black/30 backdrop-blur-xs transition-all duration-500">
+        <div className="fixed inset-0 z-1000 flex h-screen w-full items-center justify-center bg-black/30 px-4 backdrop-blur-xs transition-all duration-500 sm:px-6">
             <div
                 ref={ref}
-                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-50 p-10 shadow-lg transition-all duration-500"
+                className={cn(
+                    "relative w-full max-w-2xl rounded-lg bg-gray-50 p-6 shadow-lg transition-all duration-500 sm:p-8",
+                    className,
+                )}
             >
                 <button
                     onClick={close}
-                    className="absolute top-5 right-8 translate-x-2 rounded-sm border-none bg-transparent p-1 transition-all duration-200 hover:bg-gray-200"
+                    className="absolute top-4 right-4 rounded-sm border-none bg-transparent p-1 transition-all duration-200 hover:bg-gray-200 sm:top-5 sm:right-5"
                 >
                     <X className="h-6 w-6 cursor-pointer text-gray-500 dark:text-gray-200" />
                 </button>

@@ -6,7 +6,7 @@ import DeleteButton from "../../../components/DeleteButton.tsx"
 import Modal from "../../../components/Modal.tsx"
 import ConfirmDelete from "../../../components/ConfirmDelete.tsx"
 import { useDeleteReview } from "../../reviews/useDeleteReview.ts"
-import CreateUpdateReview from "../../reviews/CreateUpdateReview.tsx"
+import CreateEditReview from "../../reviews/CreateEditReview.tsx"
 
 function ReviewCard({ review }: { review: Review }) {
     const { id: currentUserId } = useUser()
@@ -15,7 +15,7 @@ function ReviewCard({ review }: { review: Review }) {
         id: reviewId,
         user: { name, photo },
         userId,
-        review: text,
+        review: currentReview,
         rating,
     } = review
     const canEdit = currentUserId === userId
@@ -24,7 +24,7 @@ function ReviewCard({ review }: { review: Review }) {
         <li className="group relative flex w-120 shrink-0 snap-center flex-col items-center rounded-sm bg-stone-50 p-16 shadow-xl max-lg:w-80 max-lg:p-8">
             {canEdit && (
                 <>
-                    <div className="absolute top-4 left-4" onClick={e => e.stopPropagation()}>
+                    <div className="absolute top-2 left-2" onClick={e => e.stopPropagation()}>
                         <Modal>
                             <Modal.Open opens="update-review">
                                 <button
@@ -36,20 +36,20 @@ function ReviewCard({ review }: { review: Review }) {
                                 </button>
                             </Modal.Open>
                             <Modal.Window name="update-review">
-                                <CreateUpdateReview
+                                <CreateEditReview
                                     mode="update"
                                     reviewId={reviewId}
-                                    defaultValues={{ review: text, rating }}
+                                    defaultValues={{ review: currentReview, rating }}
                                 />
                             </Modal.Window>
                         </Modal>
                     </div>
-                    <div className="absolute top-4 right-4" onClick={e => e.stopPropagation()}>
+                    <div className="absolute top-2 right-2" onClick={e => e.stopPropagation()}>
                         <Modal>
                             <Modal.Open opens="delete-review">
                                 <DeleteButton disabled={isDeletingReview} ariaLabel="Delete review" />
                             </Modal.Open>
-                            <Modal.Window name="delete-review">
+                            <Modal.Window name="delete-review" className="max-w-lg">
                                 <ConfirmDelete
                                     resourceName="review"
                                     disabled={isDeletingReview}
@@ -60,16 +60,16 @@ function ReviewCard({ review }: { review: Review }) {
                     </div>
                 </>
             )}
-            <div className="mb-8 flex items-center gap-6 max-lg:mb-6 max-lg:gap-4">
+            <div className="mt-2 mb-8 flex items-center gap-6 max-lg:mb-6 max-lg:gap-4">
                 <img
                     src={`${SERVER_URL}img/users/${photo}`}
                     alt={`Avatar of ${name}`}
                     className="h-16 w-16 rounded-full max-lg:h-14 max-lg:w-14"
                 />
-                <h6 className="text-[1.5rem] font-bold text-stone-600 uppercase max-lg:text-[1.3rem]">{name}</h6>
+                <h6 className="text-2xl font-bold text-stone-600 uppercase max-lg:text-[1.3rem]">{name}</h6>
             </div>
-            <p className="mb-8 text-center text-[1.5rem] font-light text-stone-600 italic max-lg:mb-6 max-lg:text-[1.4rem]">
-                &ldquo;{text}&rdquo;
+            <p className="mb-8 text-center text-2xl font-light text-stone-600 italic max-lg:mb-6 max-lg:text-[1.4rem]">
+                &ldquo;{currentReview}&rdquo;
             </p>
             <div className="mt-auto flex gap-2">
                 {[1, 2, 3, 4, 5].map(star => (

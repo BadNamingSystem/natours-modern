@@ -16,7 +16,7 @@ function DeleteButton({ onClick, disabled, ariaLabel, className }: Props) {
             onClick={onClick}
             disabled={disabled}
             className={cn(
-                "pointer-events-none scale-80 cursor-pointer rounded-full bg-stone-200 p-2 text-slate-900 opacity-0 shadow-md transition-all duration-300 group-hover:pointer-events-auto group-hover:scale-100 group-hover:opacity-100 hover:text-red-500",
+                "cursor-pointer rounded-full bg-stone-200 p-2 text-slate-900 opacity-100 shadow-md transition-all duration-300 hover:text-red-500 md:pointer-events-none md:scale-80 md:opacity-0 md:group-hover:pointer-events-auto md:group-hover:scale-100 md:group-hover:opacity-100",
                 className,
             )}
             aria-label={ariaLabel}

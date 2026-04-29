@@ -7,7 +7,7 @@ import { useUser } from "../../user/useUser.ts"
 import toast from "react-hot-toast"
 import Modal from "../../../components/Modal.tsx"
 import ReviewTour from "../ReviewTour.tsx"
-import CreateUpdateReview from "../../reviews/CreateUpdateReview.tsx"
+import CreateEditReview from "../../reviews/CreateEditReview.tsx"
 import type { Review } from "../../../types/types.ts"
 
 type Props = {
@@ -58,7 +58,7 @@ function TourHero({ name, imageCover, duration, startingFrom, tourId, likesCount
                         <ReviewTour className="top-24 right-4 lg:top-36 lg:right-8" />
                     </Modal.Open>
                     <Modal.Window name="create-review">
-                        <CreateUpdateReview mode="create" tourId={tourId} />
+                        <CreateEditReview mode="create" tourId={tourId} />
                     </Modal.Window>
                 </Modal>
             )}
